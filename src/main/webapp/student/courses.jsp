@@ -28,6 +28,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/student/timetable.jsp">
+                            <i data-lucide="calendar"></i>
+                            Timetable
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/student/courses.jsp" class="active">
                             <i data-lucide="book-open"></i>
                             My Courses
