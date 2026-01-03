@@ -33,6 +33,12 @@
                             My Courses
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/student/results.jsp">
+                            <i data-lucide="graduation-cap"></i>
+                            My Results
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="user-profile" onclick="toggleProfileMenu()">
