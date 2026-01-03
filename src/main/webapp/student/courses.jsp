@@ -17,7 +17,8 @@
             <!-- Sidebar -->
             <aside class="sidebar">
                 <div class="brand">
-                    <span>🎓</span> SEMS Portal
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="SEMS Logo"
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;"> SEMS Portal
                 </div>
 
                 <ul class="nav-links">
@@ -61,7 +62,7 @@
                             <i data-lucide="user" style="width: 16px; height: 16px;"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="${pageContext.request.contextPath}/auth/logout" class="dropdown-item text-red">
+                        <a href="${pageContext.request.contextPath}/auth/login.jsp" class="dropdown-item text-red">
                             <i data-lucide="log-out" style="width: 16px; height: 16px;"></i> Logout
                         </a>
                     </div>

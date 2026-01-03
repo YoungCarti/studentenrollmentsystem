@@ -16,7 +16,9 @@
         <div class="auth-wrapper">
             <div class="card auth-card">
                 <div class="text-center mb-4">
-                    <h1 style="color: var(--primary); margin-bottom: 0.5rem;">SEMS</h1>
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="SEMS Logo"
+                        style="width: 80px; height: 80px; object-fit: cover; border-radius: 50%; margin-bottom: 1rem;">
+                    <h1 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.5rem;">SEMS Portal</h1>
                     <p style="color: var(--text-muted)">Welcome back! Please sign in to continue.</p>
                 </div>
 

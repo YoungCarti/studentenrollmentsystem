@@ -16,7 +16,9 @@
             <!-- Sidebar -->
             <aside class="sidebar" style="border-right-color: var(--primary);">
                 <div class="brand">
-                    <span>🛡️</span> Admin Portal
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="SEMS Logo"
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    SEMS Admin
                 </div>
 
                 <ul class="nav-links">
@@ -58,8 +60,9 @@
                         <h1>Dashboard</h1>
                         <p style="color: var(--text-muted);">System overview and management</p>
                     </div>
-                    <a href="${pageContext.request.contextPath}/auth/logout" class="btn"
-                        style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444;">
+                    <a href="${pageContext.request.contextPath}/auth/login.jsp" class="btn"
+                        style="background-color: rgba(239, 68, 68, 0.1); color: #ef4444; display: flex; align-items: center; gap: 0.5rem;">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
                         Logout
                     </a>
                 </header>
