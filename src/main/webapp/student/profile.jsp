@@ -70,42 +70,193 @@
 
             <!-- Main Content -->
             <main class="main-content">
-                <div style="max-width: 600px;">
-                    <header class="header">
-                        <div>
-                            <h1>My Profile</h1>
-                            <p style="color: var(--text-muted);">Manage your account settings</p>
+                <div class="profile-container">
+                    <!-- Grid Layout for 2 Columns -->
+                    <!-- We place items in order: Left1, Right1, Left2, Right2, etc. so they align in rows -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
+
+                        <!-- Row 1 Left: Student Info -->
+                        <div class="section-block">
+                            <h3 class="section-title">Student Information</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Name</span>
+                                    <span class="value">SAABIRESH LETCHUMANAN</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Student No.</span>
+                                    <span class="value">B02240005</span>
+                                </div>
+
+                                <div class="info-row">
+                                    <span class="label">Campus</span>
+                                    <span class="value">University Malaysia of Computer Science and Engineering
+                                        (UNIMY)</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Programme</span>
+                                    <span class="value">Bachelor of Computer Science with Honours (BCS)</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Intake</span>
+                                    <span class="value">February 2024 (B2402)</span>
+                                </div>
+                            </div>
                         </div>
-                    </header>
 
-                    <div class="card mb-4">
-                        <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Personal Information</h2>
-                        <form>
-                            <div class="form-group">
-                                <label class="form-label">Full Name</label>
-                                <input type="text" class="form-control" value="John Smith" readonly>
+                        <!-- Row 1 Right: Preference -->
+                        <div class="section-block">
+                            <h3 class="section-title">Preference</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Gender</span>
+                                    <span class="value">Male</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Race</span>
+                                    <span class="value">Indian</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Religion</span>
+                                    <span class="value">Hindu</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Marital Status</span>
+                                    <span class="value">Single</span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Email Address</label>
-                                <input type="email" class="form-control" value="john.smith@university.edu" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Student ID</label>
-                                <input type="text" class="form-control" value="2023001" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Date of Birth</label>
-                                <input type="date" class="form-control" value="2000-05-15" readonly>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
 
-                    <div class="card">
-                        <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Security</h2>
-                        <button class="btn" style="background: transparent; border: 1px solid var(--border);">Change
-                            Password</button>
+                        <!-- Row 2 Left: Personal Information -->
+                        <div class="section-block">
+                            <h3 class="section-title">Personal Information</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Nationality</span>
+                                    <span class="value">Malaysian</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Country of Origin</span>
+                                    <span class="value">Malaysia</span>
+                                </div>
+
+                                <div class="info-row">
+                                    <span class="label">IC/Passport No.</span>
+                                    <span class="value">041123102041</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">D.O.B</span>
+                                    <span class="value">23/11/2004</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2 Right: Current Address -->
+                        <div class="section-block">
+                            <h3 class="section-title">Current Address</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Address</span>
+                                    <span class="value">D-1-23 BAYU VILLA CONDOMINIUM , TAMAN BAYU PERDANA</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Postcode</span>
+                                    <span class="value">41200</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">City</span>
+                                    <span class="value">KLANG</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">State</span>
+                                    <span class="value">SELANGOR</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Country</span>
+                                    <span class="value">MALAYSIA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 3 Left: Contact Information -->
+
+
+                        <!-- Row 3 Right: HOC/Dean -->
+                        <div class="section-block">
+                            <h3 class="section-title">HOC/Dean Details</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Name</span>
+                                    <span class="value">NUR FAIQAH BINTI AB HAMID @ FAUZI</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Email</span>
+                                    <span class="value text-blue">faiqah.fauzi@unimy.edu.my</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Mobile No</span>
+                                    <span class="value text-blue">0136279412</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 4 Left: Status -->
+                        <div class="section-block">
+                            <h3 class="section-title">Status</h3>
+                            <div class="info-grid">
+                                <div class="info-row">
+                                    <span class="label">Registered</span>
+                                    <span class="value">19/02/2024</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label">Active</span>
+                                    <span class="value">19/02/2024</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <style>
+                    .section-title {
+                        color: #10b981;
+                        font-size: 1rem;
+                        margin-bottom: 1rem;
+                        font-weight: 600;
+                    }
+
+                    .section-block {
+                        /* margin-bottom is handled by grid gap now, largely */
+                        height: 100%;
+                        /* Ensure decent spacing */
+                    }
+
+                    .info-grid {
+                        display: grid;
+                        gap: 0.5rem;
+                    }
+
+                    .info-row {
+                        display: grid;
+                        grid-template-columns: 180px 1fr;
+                        align-items: baseline;
+                    }
+
+                    .label {
+                        font-weight: 600;
+                        color: var(--text-main);
+                        font-size: 0.9rem;
+                    }
+
+                    .value {
+                        color: var(--text-muted);
+                        font-size: 0.9rem;
+                    }
+
+                    .text-blue {
+                        color: #3b82f6;
+                    }
+                </style>
             </main>
         </div>
         <script src="https://unpkg.com/lucide@latest"></script>
