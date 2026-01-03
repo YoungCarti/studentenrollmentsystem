@@ -229,3 +229,35 @@
 .btn-download:hover {
     background-color: #dc2626;
 }
+
+.btn-green {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #059669;
+}
+
+.btn-red {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: #dc2626;
+}
+
+.checkbox-overlay {
+    display: none;
+    margin-right: 1rem;
+}
+
+.course-card.selection-mode {
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.course-card.selection-mode:hover {
+    border-color: var(--primary);
+}
