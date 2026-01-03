@@ -12,46 +12,73 @@
     </head>
 
     <body>
+        <script src="https://unpkg.com/lucide@latest"></script>
+
         <div class="dashboard-container">
             <!-- Sidebar (Admin) -->
             <aside class="sidebar" style="border-right-color: var(--primary);">
                 <div class="brand">
-                    <span>🛡️</span> Admin Portal
+                    <img src="${pageContext.request.contextPath}/images/logo.png" alt="SEMS Logo"
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%;">
+                    SEMS Admin
                 </div>
 
                 <ul class="nav-links">
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/dashboard.jsp">
+                            <i data-lucide="layout-dashboard"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/calendar.jsp">
+                            <i data-lucide="calendar"></i>
+                            Manage Academic Calendar
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/students.jsp">
-                            Students
+                            <i data-lucide="users"></i>
+                            Manage Student
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/courses.jsp">
-                            Courses
+                            <i data-lucide="book-open"></i>
+                            Manage Courses
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/enrollments.jsp">
-                            Enrollments
+                            <i data-lucide="clipboard-list"></i>
+                            Manage Enrollments
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/reports.jsp" class="active">
+                            <i data-lucide="file-bar-chart"></i>
                             Reports
                         </a>
                     </li>
                 </ul>
 
-                <div class="user-profile">
+                <div class="user-profile" onclick="toggleProfileMenu()">
                     <div class="avatar" style="background: #10b981;">AD</div>
                     <div>
                         <div style="font-weight: 500;">System Admin</div>
                         <div style="font-size: 0.75rem; color: var(--text-muted);">Administrator</div>
+                    </div>
+                    <i data-lucide="chevron-up"
+                        style="margin-left: auto; width: 16px; height: 16px; color: var(--text-muted);"></i>
+
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="#" class="dropdown-item">
+                            <i data-lucide="user" style="width: 16px; height: 16px;"></i> Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="${pageContext.request.contextPath}/auth/login.jsp" class="dropdown-item text-red">
+                            <i data-lucide="log-out" style="width: 16px; height: 16px;"></i> Logout
+                        </a>
                     </div>
                 </div>
             </aside>
@@ -95,6 +122,21 @@
                 </div>
             </main>
         </div>
+        <script>
+            lucide.createIcons();
+
+            function toggleProfileMenu() {
+                const dropdown = document.getElementById('profileDropdown');
+                dropdown.classList.toggle('show');
+            }
+
+            window.addEventListener('click', function (e) {
+                const profile = document.querySelector('.user-profile');
+                if (!profile.contains(e.target)) {
+                    document.getElementById('profileDropdown').classList.remove('show');
+                }
+            });
+        </script>
     </body>
 
     </html>

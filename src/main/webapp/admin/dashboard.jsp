@@ -31,21 +31,33 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/calendar.jsp">
+                            <i data-lucide="calendar"></i>
+                            Manage Academic Calendar
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/students.jsp">
                             <i data-lucide="users"></i>
-                            Students
+                            Manage Student
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/courses.jsp">
                             <i data-lucide="book-open"></i>
-                            Courses
+                            Manage Courses
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/enrollments.jsp">
                             <i data-lucide="clipboard-list"></i>
-                            Enrollments
+                            Manage Enrollments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/reports.jsp">
+                            <i data-lucide="file-bar-chart"></i>
+                            Reports
                         </a>
                     </li>
                 </ul>

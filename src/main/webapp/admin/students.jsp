@@ -31,21 +31,33 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/calendar.jsp">
+                            <i data-lucide="calendar"></i>
+                            Manage Academic Calendar
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/students.jsp" class="active">
                             <i data-lucide="users"></i>
-                            Students
+                            Manage Student
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/courses.jsp">
                             <i data-lucide="book-open"></i>
-                            Courses
+                            Manage Courses
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/enrollments.jsp">
                             <i data-lucide="clipboard-list"></i>
-                            Enrollments
+                            Manage Enrollments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/reports.jsp">
+                            <i data-lucide="file-bar-chart"></i>
+                            Reports
                         </a>
                     </li>
                 </ul>
@@ -131,9 +143,9 @@
                                         style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span>
                                 </td>
                                 <td style="padding: 1rem;">
-                                    <button
+                                    <button onclick="openEditModal(this)"
                                         style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
-                                    <button
+                                    <button onclick="openDeleteModal(this)"
                                         style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
                                 </td>
                             </tr>
@@ -146,9 +158,9 @@
                                         style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span>
                                 </td>
                                 <td style="padding: 1rem;">
-                                    <button
+                                    <button onclick="openEditModal(this)"
                                         style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
-                                    <button
+                                    <button onclick="openDeleteModal(this)"
                                         style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
                                 </td>
                             </tr>
@@ -161,9 +173,9 @@
                                         style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Probation</span>
                                 </td>
                                 <td style="padding: 1rem;">
-                                    <button
+                                    <button onclick="openEditModal(this)"
                                         style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
-                                    <button
+                                    <button onclick="openDeleteModal(this)"
                                         style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
                                 </td>
                             </tr>
@@ -175,15 +187,16 @@
                 </div>
             </main>
         </div>
-        <!-- Add Student Modal -->
+        <!-- Add/Edit Student Modal -->
         <div id="addStudentModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>Add New Student</h2>
+                    <h2 id="modalTitle">Add New Student</h2>
                     <span class="close" onclick="closeModal()">&times;</span>
                 </div>
                 <div class="modal-body">
                     <form id="addStudentForm">
+                        <input type="hidden" id="editRowId">
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Name</label>
@@ -193,6 +206,7 @@
                                 <label>Student ID</label>
                                 <input type="text" id="newStudentId" required>
                             </div>
+                            <!-- ... existing fields ... -->
                             <div class="form-group">
                                 <label>Program</label>
                                 <select id="newStudentProgram" required>
@@ -257,9 +271,29 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                            <button type="button" class="btn" onclick="addStudent()">Confirm</button>
+                            <button type="button" class="btn" id="modalConfirmBtn"
+                                onclick="handleFormSubmit()">Confirm</button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div id="deleteStudentModal" class="modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="modal-header">
+                    <h2>Delete Student</h2>
+                    <span class="close" onclick="closeDeleteModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p>Do you confirm want to delete this student?</p>
+                    <input type="hidden" id="deleteRowId">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                    <button type="button" class="btn" style="background-color: #ef4444; color: white;"
+                        onclick="confirmDelete()">Delete</button>
                 </div>
             </div>
         </div>
@@ -444,11 +478,40 @@
 
             // Modal Functions
             function openModal() {
+                // Reset/Setup Modal for ADD
+                document.getElementById('modalTitle').innerText = "Add New Student";
+                document.getElementById('addStudentForm').reset();
+                document.getElementById('editRowId').value = ""; // clear edit ID
+
                 document.getElementById('addStudentModal').style.display = "block";
-                // Change URL to act like a new page without reloading
-                // Only push state if we aren't already there (e.g. via redirect)
+
                 if (!window.location.href.includes('add-student.jsp')) {
                     history.pushState({ modal: true }, "Add New Student", "add-student.jsp");
+                }
+            }
+
+            let currentRow = null; // Store row for editing/deleting
+
+            function openEditModal(button) {
+                currentRow = button.closest('tr');
+                const cells = currentRow.getElementsByTagName('td');
+                const id = cells[0].innerText;
+                const name = cells[1].innerText;
+                const program = cells[2].innerText;
+                const email = cells[3].innerText;
+
+                // Populate form
+                document.getElementById('modalTitle').innerText = "Edit Student";
+                document.getElementById('newStudentId').value = id;
+                document.getElementById('newStudentName').value = name;
+                document.getElementById('newStudentProgram').value = program;
+                document.getElementById('newStudentEmail').value = email;
+                document.getElementById('editRowId').value = "true"; // mark as edit mode
+
+                document.getElementById('addStudentModal').style.display = "block";
+
+                if (!window.location.href.includes('edit-student.jsp')) {
+                    history.pushState({ modal: true }, "Edit Student", "edit-student.jsp");
                 }
             }
 
@@ -457,10 +520,14 @@
                 // Revert URL
                 if (window.location.href.includes('add-student.jsp')) {
                     history.pushState({ modal: false }, "Students", "students.jsp");
+                } else if (window.location.href.includes('edit-student.jsp')) {
+                    history.pushState({ modal: false }, "Students", "students.jsp");
                 }
             }
 
-            function addStudent() {
+            function handleFormSubmit() {
+                const isEdit = document.getElementById('editRowId').value === "true";
+
                 // Get form values
                 const name = document.getElementById('newStudentName').value;
                 const id = document.getElementById('newStudentId').value;
@@ -472,7 +539,24 @@
                     return;
                 }
 
-                // Create new row
+                if (isEdit && currentRow) {
+                    // Update existing row
+                    const cells = currentRow.getElementsByTagName('td');
+                    cells[0].innerText = id;
+                    cells[1].innerText = name;
+                    cells[2].innerText = program;
+                    cells[3].innerText = email;
+                } else {
+                    // Add new row
+                    addStudentRow(id, name, program, email);
+                }
+
+                closeModal();
+                // Reset form
+                document.getElementById('addStudentForm').reset();
+            }
+
+            function addStudentRow(id, name, program, email) {
                 const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
                 const newRow = table.insertRow();
                 newRow.style.borderBottom = "1px solid var(--border)";
@@ -484,14 +568,28 @@
                     <td style="padding: 1rem; color: var(--text-muted);">${email}</td>
                     <td style="padding: 1rem;"><span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span></td>
                     <td style="padding: 1rem;">
-                        <button style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
-                        <button style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
+                        <button onclick="openEditModal(this)" style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
+                        <button onclick="openDeleteModal(this)" style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
                     </td>
                 `;
+            }
 
-                // Reset form and close modal
-                document.getElementById('addStudentForm').reset();
-                closeModal();
+            // Delete Functions
+            function openDeleteModal(button) {
+                currentRow = button.closest('tr');
+                document.getElementById('deleteStudentModal').style.display = "block";
+            }
+
+            function closeDeleteModal() {
+                document.getElementById('deleteStudentModal').style.display = "none";
+                currentRow = null;
+            }
+
+            function confirmDelete() {
+                if (currentRow) {
+                    currentRow.remove();
+                }
+                closeDeleteModal();
             }
         </script>
     </body>
