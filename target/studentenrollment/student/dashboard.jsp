@@ -23,7 +23,7 @@
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/student/dashboard.jsp" class="active">
                             <i data-lucide="layout-dashboard"></i>
-                            Available Dashboard
+                            Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
