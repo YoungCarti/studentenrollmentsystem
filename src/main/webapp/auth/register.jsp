@@ -45,14 +45,19 @@
                                         placeholder="user@example.com" required>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="dob" class="form-label">Date of Birth</label>
-                                    <input type="date" id="dob" name="dob" class="form-control" required>
-                                </div>
+
 
                                 <div class="form-group">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" id="password" name="password" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select id="role" name="role" class="form-control">
+                                        <option value="student">Student</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
                                 </div>
 
                                 <button type="submit" class="btn w-full mt-4">Register</button>
