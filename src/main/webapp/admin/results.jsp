@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Manage Students - Admin Portal</title>
+        <title>Manage Results - Admin Portal</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin/students.jsp" class="active">
+                        <a href="${pageContext.request.contextPath}/admin/students.jsp">
                             <i data-lucide="users"></i>
                             Manage Student
                         </a>
@@ -55,7 +55,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin/results.jsp">
+                        <a href="${pageContext.request.contextPath}/admin/results.jsp" class="active">
                             <i data-lucide="graduation-cap"></i>
                             Manage Results
                         </a>
@@ -93,12 +93,12 @@
             <main class="main-content">
                 <header class="header">
                     <div>
-                        <h1>Student Management</h1>
-                        <p style="color: var(--text-muted);">View and manage student records</p>
+                        <h1>Result Management</h1>
+                        <p style="color: var(--text-muted);">Manage student examination results</p>
                     </div>
                     <div style="display: flex; gap: 1rem;">
                         <button class="btn" onclick="openModal()">
-                            + Add New Student
+                            + Add New Result
                         </button>
                     </div>
                 </header>
@@ -106,31 +106,29 @@
                 <div class="card">
                     <!-- Search/Actions -->
                     <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search by name or ID..."
-                            style="max-width: 300px;" onkeyup="filterTable()">
-                        <select id="programFilter" class="form-control" style="max-width: 150px;"
-                            onchange="filterTable()">
-                            <option value="">All Programs</option>
-                            <option value="BCS">BCS</option>
-                            <option value="BSE">BSE</option>
-                        </select>
+                        <input type="text" id="searchInput" class="form-control"
+                            placeholder="Search by student or course..." style="max-width: 300px;"
+                            onkeyup="filterResults()">
                     </div>
 
-                    <table id="studentsTable" style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <table id="resultsTable" style="width: 100%; border-collapse: collapse; text-align: left;">
                         <thead>
                             <tr style="border-bottom: 2px solid var(--border);">
                                 <th
                                     style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
-                                    ID</th>
+                                    Student ID</th>
                                 <th
                                     style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
-                                    Name</th>
+                                    Student Name</th>
                                 <th
                                     style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
-                                    Program</th>
+                                    Course Code</th>
                                 <th
                                     style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
-                                    Email</th>
+                                    Grade</th>
+                                <th
+                                    style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
+                                    Point</th>
                                 <th
                                     style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
                                     Status</th>
@@ -143,10 +141,27 @@
                             <tr style="border-bottom: 1px solid var(--border);">
                                 <td style="padding: 1rem;">2023001</td>
                                 <td style="padding: 1rem; font-weight: 500;">John Smith</td>
-                                <td style="padding: 1rem;">BCS</td>
-                                <td style="padding: 1rem; color: var(--text-muted);">john.smith@university.edu</td>
+                                <td style="padding: 1rem;">CS205</td>
+                                <td style="padding: 1rem; font-weight: 600;">A</td>
+                                <td style="padding: 1rem;">4.00</td>
                                 <td style="padding: 1rem;"><span
-                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span>
+                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">PASS</span>
+                                </td>
+                                <td style="padding: 1rem;">
+                                    <button onclick="openEditModal(this)"
+                                        style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
+                                    <button onclick="openDeleteModal(this)"
+                                        style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
+                                </td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <td style="padding: 1rem;">2023001</td>
+                                <td style="padding: 1rem; font-weight: 500;">John Smith</td>
+                                <td style="padding: 1rem;">CS201</td>
+                                <td style="padding: 1rem; font-weight: 600;">B+</td>
+                                <td style="padding: 1rem;">3.33</td>
+                                <td style="padding: 1rem;"><span
+                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">PASS</span>
                                 </td>
                                 <td style="padding: 1rem;">
                                     <button onclick="openEditModal(this)"
@@ -158,25 +173,11 @@
                             <tr style="border-bottom: 1px solid var(--border);">
                                 <td style="padding: 1rem;">2023002</td>
                                 <td style="padding: 1rem; font-weight: 500;">Sarah Johnson</td>
-                                <td style="padding: 1rem;">BSE</td>
-                                <td style="padding: 1rem; color: var(--text-muted);">sarah.j@university.edu</td>
+                                <td style="padding: 1rem;">CS205</td>
+                                <td style="padding: 1rem; font-weight: 600;">A-</td>
+                                <td style="padding: 1rem;">3.67</td>
                                 <td style="padding: 1rem;"><span
-                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span>
-                                </td>
-                                <td style="padding: 1rem;">
-                                    <button onclick="openEditModal(this)"
-                                        style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
-                                    <button onclick="openDeleteModal(this)"
-                                        style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
-                                </td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid var(--border);">
-                                <td style="padding: 1rem;">2023003</td>
-                                <td style="padding: 1rem; font-weight: 500;">Michael Brown</td>
-                                <td style="padding: 1rem;">BCS</td>
-                                <td style="padding: 1rem; color: var(--text-muted);">m.brown@university.edu</td>
-                                <td style="padding: 1rem;"><span
-                                        style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Probation</span>
+                                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">PASS</span>
                                 </td>
                                 <td style="padding: 1rem;">
                                     <button onclick="openEditModal(this)"
@@ -187,98 +188,55 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <!-- Pagination -->
-
                 </div>
             </main>
         </div>
-        <!-- Add/Edit Student Modal -->
-        <div id="addStudentModal" class="modal">
+
+        <!-- Add/Edit Result Modal -->
+        <div id="addResultModal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 id="modalTitle">Add New Student</h2>
+                    <h2 id="modalTitle">Add New Result</h2>
                     <span class="close" onclick="closeModal()">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <form id="addStudentForm">
-                        <input type="hidden" id="editRowId">
+                    <form id="addResultForm">
+                        <input type="hidden" id="editRowIndex">
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" id="newStudentName" required>
-                            </div>
-                            <div class="form-group">
                                 <label>Student ID</label>
-                                <input type="text" id="newStudentId" required>
+                                <input type="text" id="resultStudentId" required placeholder="e.g. 2023001">
                             </div>
-                            <!-- ... existing fields ... -->
                             <div class="form-group">
-                                <label>Program</label>
-                                <select id="newStudentProgram" required>
-                                    <option value="BCS">BCS</option>
-                                    <option value="BSE">BSE</option>
+                                <label>Student Name</label>
+                                <input type="text" id="resultStudentName" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Course Code</label>
+                                <input type="text" id="resultCourseCode" required placeholder="e.g. CS205">
+                            </div>
+                            <div class="form-group">
+                                <label>Grade</label>
+                                <select id="resultGrade" required onchange="calculatePoint()">
+                                    <option value="A">A</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B">B</option>
+                                    <option value="B-">B-</option>
+                                    <option value="C+">C+</option>
+                                    <option value="C">C</option>
+                                    <option value="F">F</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" id="newStudentEmail" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Intake</label>
-                                <input type="text" id="newStudentIntake" placeholder="e.g. Feb 2024">
-                            </div>
-                            <div class="form-group">
-                                <label>Nationality</label>
-                                <input type="text" id="newStudentNationality">
-                            </div>
-                            <div class="form-group">
-                                <label>Country of Origin</label>
-                                <input type="text" id="newStudentCountry">
-                            </div>
-                            <div class="form-group">
-                                <label>IC Number</label>
-                                <input type="text" id="newStudentIC">
-                            </div>
-                            <div class="form-group">
-                                <label>D.O.B</label>
-                                <input type="date" id="newStudentDOB">
-                            </div>
-                            <div class="form-group">
-                                <label>Gender</label>
-                                <select id="newStudentGender">
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Race</label>
-                                <input type="text" id="newStudentRace">
-                            </div>
-                            <div class="form-group">
-                                <label>Religion</label>
-                                <input type="text" id="newStudentReligion">
-                            </div>
-                            <div class="form-group">
-                                <label>Marital Status</label>
-                                <select id="newStudentMarital">
-                                    <option value="Single">Single</option>
-                                    <option value="Married">Married</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Dean Name</label>
-                                <input type="text" id="newStudentDeanName">
-                            </div>
-                            <div class="form-group">
-                                <label>Dean's Email</label>
-                                <input type="email" id="newStudentDeanEmail">
+                                <label>Point</label>
+                                <input type="number" id="resultPoint" step="0.01" readonly
+                                    style="background: var(--bg-card);">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                            <button type="button" class="btn" id="modalConfirmBtn"
-                                onclick="handleFormSubmit()">Confirm</button>
+                            <button type="button" class="btn" onclick="handleFormSubmit()">Confirm</button>
                         </div>
                     </form>
                 </div>
@@ -286,15 +244,14 @@
         </div>
 
         <!-- Delete Confirmation Modal -->
-        <div id="deleteStudentModal" class="modal">
+        <div id="deleteResultModal" class="modal">
             <div class="modal-content" style="max-width: 400px;">
                 <div class="modal-header">
-                    <h2>Delete Student</h2>
+                    <h2>Delete Result</h2>
                     <span class="close" onclick="closeDeleteModal()">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <p>Do you confirm want to delete this student?</p>
-                    <input type="hidden" id="deleteRowId">
+                    <p>Are you sure you want to remove this result record?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
@@ -305,7 +262,6 @@
         </div>
 
         <style>
-            /* Modal Styles */
             .modal {
                 display: none;
                 position: fixed;
@@ -324,8 +280,9 @@
                 margin: 5% auto;
                 padding: 0;
                 border: 1px solid var(--border);
-                width: 60%;
-                max-width: 800px;
+                width: 50%;
+                /* Adjusted width */
+                max-width: 600px;
                 border-radius: 0.75rem;
                 box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             }
@@ -364,7 +321,8 @@
 
             .form-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
+                /* Single column for simpler form */
                 gap: 1rem;
             }
 
@@ -412,53 +370,47 @@
                 dropdown.classList.toggle('show');
             }
 
-            // Close dropdown when clicking outside
             window.addEventListener('click', function (e) {
                 const profile = document.querySelector('.user-profile');
                 if (!profile.contains(e.target)) {
                     document.getElementById('profileDropdown').classList.remove('show');
                 }
-                // Close modal if clicking outside
-                const modal = document.getElementById('addStudentModal');
+                const modal = document.getElementById('addResultModal');
                 if (e.target == modal) {
                     closeModal();
                 }
             });
 
-            function filterTable() {
+            const gradePoints = {
+                'A': 4.00, 'A-': 3.67, 'B+': 3.33, 'B': 3.00, 'B-': 2.67,
+                'C+': 2.33, 'C': 2.00, 'F': 0.00
+            };
+
+            function calculatePoint() {
+                const grade = document.getElementById('resultGrade').value;
+                const point = gradePoints[grade] || 0.00;
+                document.getElementById('resultPoint').value = point.toFixed(2);
+            }
+
+            function filterResults() {
                 const searchInput = document.getElementById('searchInput');
                 const filterValue = searchInput.value.toUpperCase();
-                const programSelect = document.getElementById('programFilter');
-                const programValue = programSelect.value.toUpperCase();
-
-                const table = document.getElementById('studentsTable');
+                const table = document.getElementById('resultsTable');
                 const tr = table.getElementsByTagName('tr');
 
-                // Loop through all table rows, and hide those who don't match the search query and program
-                for (let i = 0; i < tr.length; i++) {
-                    const tdId = tr[i].getElementsByTagName('td')[0]; // ID column
-                    const tdName = tr[i].getElementsByTagName('td')[1]; // Name column
-                    const tdProgram = tr[i].getElementsByTagName('td')[2]; // Program column
+                for (let i = 1; i < tr.length; i++) {
+                    const tdId = tr[i].getElementsByTagName('td')[0];
+                    const tdName = tr[i].getElementsByTagName('td')[1];
+                    const tdCourse = tr[i].getElementsByTagName('td')[2];
 
-                    if (tdId && tdName && tdProgram) {
-                        const idValue = tdId.textContent || tdId.innerText;
-                        const nameValue = tdName.textContent || tdName.innerText;
-                        const programText = tdProgram.textContent || tdProgram.innerText;
+                    if (tdId && tdName && tdCourse) {
+                        const idText = tdId.textContent || tdId.innerText;
+                        const nameText = tdName.textContent || tdName.innerText;
+                        const courseText = tdCourse.textContent || tdCourse.innerText;
 
-                        let matchesSearch = false;
-                        let matchesProgram = false;
-
-                        // Check Search (Name or ID)
-                        if (idValue.toUpperCase().indexOf(filterValue) > -1 || nameValue.toUpperCase().indexOf(filterValue) > -1) {
-                            matchesSearch = true;
-                        }
-
-                        // Check Program
-                        if (programValue === "" || programText.toUpperCase() === programValue) {
-                            matchesProgram = true;
-                        }
-
-                        if (matchesSearch && matchesProgram) {
+                        if (idText.toUpperCase().indexOf(filterValue) > -1 ||
+                            nameText.toUpperCase().indexOf(filterValue) > -1 ||
+                            courseText.toUpperCase().indexOf(filterValue) > -1) {
                             tr[i].style.display = "";
                         } else {
                             tr[i].style.display = "none";
@@ -467,127 +419,94 @@
                 }
             }
 
-            window.onload = function () {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('openModal') === 'true') {
-                    openModal();
-                }
-            }
-
-            window.onpopstate = function (event) {
-                if (event.state && event.state.modal) {
-                    document.getElementById('addStudentModal').style.display = "block";
-                } else {
-                    document.getElementById('addStudentModal').style.display = "none";
-                }
-            };
-
             // Modal Functions
             function openModal() {
-                // Reset/Setup Modal for ADD
-                document.getElementById('modalTitle').innerText = "Add New Student";
-                document.getElementById('addStudentForm').reset();
-                document.getElementById('editRowId').value = ""; // clear edit ID
-
-                document.getElementById('addStudentModal').style.display = "block";
-
-                if (!window.location.href.includes('add-student.jsp')) {
-                    history.pushState({ modal: true }, "Add New Student", "add-student.jsp");
-                }
+                document.getElementById('modalTitle').innerText = "Add New Result";
+                document.getElementById('addResultForm').reset();
+                document.getElementById('editRowIndex').value = "";
+                calculatePoint();
+                document.getElementById('addResultModal').style.display = "block";
             }
 
-            let currentRow = null; // Store row for editing/deleting
+            let currentRow = null;
 
             function openEditModal(button) {
                 currentRow = button.closest('tr');
                 const cells = currentRow.getElementsByTagName('td');
-                const id = cells[0].innerText;
-                const name = cells[1].innerText;
-                const program = cells[2].innerText;
-                const email = cells[3].innerText;
 
-                // Populate form
-                document.getElementById('modalTitle').innerText = "Edit Student";
-                document.getElementById('newStudentId').value = id;
-                document.getElementById('newStudentName').value = name;
-                document.getElementById('newStudentProgram').value = program;
-                document.getElementById('newStudentEmail').value = email;
-                document.getElementById('editRowId').value = "true"; // mark as edit mode
+                document.getElementById('modalTitle').innerText = "Edit Result";
+                document.getElementById('resultStudentId').value = cells[0].innerText;
+                document.getElementById('resultStudentName').value = cells[1].innerText;
+                document.getElementById('resultCourseCode').value = cells[2].innerText;
+                document.getElementById('resultGrade').value = cells[3].innerText;
+                document.getElementById('resultPoint').value = cells[4].innerText;
 
-                document.getElementById('addStudentModal').style.display = "block";
+                document.getElementById('editRowIndex').value = currentRow.rowIndex;
 
-                if (!window.location.href.includes('edit-student.jsp')) {
-                    history.pushState({ modal: true }, "Edit Student", "edit-student.jsp");
-                }
+                document.getElementById('addResultModal').style.display = "block";
             }
 
             function closeModal() {
-                document.getElementById('addStudentModal').style.display = "none";
-                // Revert URL
-                if (window.location.href.includes('add-student.jsp')) {
-                    history.pushState({ modal: false }, "Students", "students.jsp");
-                } else if (window.location.href.includes('edit-student.jsp')) {
-                    history.pushState({ modal: false }, "Students", "students.jsp");
-                }
+                document.getElementById('addResultModal').style.display = "none";
             }
 
             function handleFormSubmit() {
-                const isEdit = document.getElementById('editRowId').value === "true";
+                const btn = event.target; // Simplistic prevents default not needed if type button
 
-                // Get form values
-                const name = document.getElementById('newStudentName').value;
-                const id = document.getElementById('newStudentId').value;
-                const program = document.getElementById('newStudentProgram').value;
-                const email = document.getElementById('newStudentEmail').value;
+                const sid = document.getElementById('resultStudentId').value;
+                const sname = document.getElementById('resultStudentName').value;
+                const code = document.getElementById('resultCourseCode').value;
+                const grade = document.getElementById('resultGrade').value;
+                const point = document.getElementById('resultPoint').value;
+                const status = (grade === 'F') ? 'FAIL' : 'PASS';
+                const statusColor = (grade === 'F') ? '#ef4444' : '#10b981';
+                const statusBg = (grade === 'F') ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
 
-                if (!name || !id || !program || !email) {
-                    alert("Please fill in at least Name, ID, Program and Email.");
+                if (!sid || !sname || !code || !grade) {
+                    alert("Please fill all required fields");
                     return;
                 }
 
-                if (isEdit && currentRow) {
-                    // Update existing row
-                    const cells = currentRow.getElementsByTagName('td');
-                    cells[0].innerText = id;
-                    cells[1].innerText = name;
-                    cells[2].innerText = program;
-                    cells[3].innerText = email;
+                const rowIndex = document.getElementById('editRowIndex').value;
+
+                if (rowIndex) {
+                    // Edit
+                    const table = document.getElementById('resultsTable');
+                    const row = table.rows[rowIndex];
+                    row.cells[0].innerText = sid;
+                    row.cells[1].innerText = sname;
+                    row.cells[2].innerText = code;
+                    row.cells[3].innerText = grade;
+                    row.cells[4].innerText = point;
+                    row.cells[5].innerHTML = `<span style="background: \${statusBg}; color: \${statusColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">\${status}</span>`;
                 } else {
-                    // Add new row
-                    addStudentRow(id, name, program, email);
-                }
-
-                closeModal();
-                // Reset form
-                document.getElementById('addStudentForm').reset();
-            }
-
-            function addStudentRow(id, name, program, email) {
-                const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
-                const newRow = table.insertRow();
-                newRow.style.borderBottom = "1px solid var(--border)";
-
-                newRow.innerHTML = `
-                    <td style="padding: 1rem;">${id}</td>
-                    <td style="padding: 1rem; font-weight: 500;">${name}</td>
-                    <td style="padding: 1rem;">${program}</td>
-                    <td style="padding: 1rem; color: var(--text-muted);">${email}</td>
-                    <td style="padding: 1rem;"><span style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">Active</span></td>
+                    // Add
+                    const table = document.getElementById('resultsTable').getElementsByTagName('tbody')[0];
+                    const newRow = table.insertRow();
+                    newRow.style.borderBottom = "1px solid var(--border)";
+                    newRow.innerHTML = `
+                    <td style="padding: 1rem;">\${sid}</td>
+                    <td style="padding: 1rem; font-weight: 500;">\${sname}</td>
+                    <td style="padding: 1rem;">\${code}</td>
+                    <td style="padding: 1rem; font-weight: 600;">\${grade}</td>
+                    <td style="padding: 1rem;">\${point}</td>
+                    <td style="padding: 1rem;"><span style="background: \${statusBg}; color: \${statusColor}; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">\${status}</span></td>
                     <td style="padding: 1rem;">
                         <button onclick="openEditModal(this)" style="background: none; border: none; color: var(--primary); cursor: pointer; margin-right: 0.5rem; font-weight: 500;">Edit</button>
                         <button onclick="openDeleteModal(this)" style="background: none; border: none; color: #ef4444; cursor: pointer; font-weight: 500;">Delete</button>
                     </td>
                 `;
+                }
+                closeModal();
             }
 
-            // Delete Functions
             function openDeleteModal(button) {
                 currentRow = button.closest('tr');
-                document.getElementById('deleteStudentModal').style.display = "block";
+                document.getElementById('deleteResultModal').style.display = "block";
             }
 
             function closeDeleteModal() {
-                document.getElementById('deleteStudentModal').style.display = "none";
+                document.getElementById('deleteResultModal').style.display = "none";
                 currentRow = null;
             }
 

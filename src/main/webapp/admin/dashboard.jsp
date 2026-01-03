@@ -55,6 +55,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/results.jsp">
+                            <i data-lucide="graduation-cap"></i>
+                            Manage Results
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/reports.jsp">
                             <i data-lucide="file-bar-chart"></i>
                             Reports
@@ -102,7 +108,7 @@
                     <div class="stat-card">
                         <div class="stat-label">Active Courses</div>
                         <div class="stat-value">48</div>
-                        <div style="color: var(--text-muted); font-size: 0.875rem;">Across 6 depts</div>
+                        <div style="color: var(--text-muted); font-size: 0.875rem;">Across 6 projects</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-label">New Enrollments</div>

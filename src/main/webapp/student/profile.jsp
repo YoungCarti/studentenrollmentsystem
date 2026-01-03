@@ -142,7 +142,7 @@
 
                                 <div class="info-row">
                                     <span class="label">IC/Passport No.</span>
-                                    <span class="value">041123102041</span>
+                                    <span class="value">-</span>
                                 </div>
                                 <div class="info-row">
                                     <span class="label">D.O.B</span>
@@ -151,32 +151,7 @@
                             </div>
                         </div>
 
-                        <!-- Row 2 Right: Current Address -->
-                        <div class="section-block">
-                            <h3 class="section-title">Current Address</h3>
-                            <div class="info-grid">
-                                <div class="info-row">
-                                    <span class="label">Address</span>
-                                    <span class="value">D-1-23 BAYU VILLA CONDOMINIUM , TAMAN BAYU PERDANA</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Postcode</span>
-                                    <span class="value">41200</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">City</span>
-                                    <span class="value">KLANG</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">State</span>
-                                    <span class="value">SELANGOR</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Country</span>
-                                    <span class="value">MALAYSIA</span>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Row 3 Left: Contact Information -->
 

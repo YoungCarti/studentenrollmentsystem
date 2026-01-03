@@ -55,6 +55,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/results.jsp">
+                            <i data-lucide="graduation-cap"></i>
+                            Manage Results
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/reports.jsp">
                             <i data-lucide="file-bar-chart"></i>
                             Reports
@@ -121,8 +127,7 @@
                                         Credits</span>
                                 </div>
                                 <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0.5rem 0 0 0;">Program:
-                                    BCS • Department: Computer Science • Max
-                                    Capacity: 40</p>
+                                    BCS • Lecturer: Prof. Sarah Connor • Max Capacity: 40</p>
                             </div>
                             <div>
                                 <button class="btn" onclick="openEditModal(this)"
@@ -143,8 +148,7 @@
                                         Credits</span>
                                 </div>
                                 <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0.5rem 0 0 0;">Program:
-                                    BSE • Department: Computer Science • Max
-                                    Capacity: 35</p>
+                                    BSE • Lecturer: Dr. Alan Grant • Max Capacity: 35</p>
                             </div>
                             <div>
                                 <button class="btn" onclick="openEditModal(this)"
@@ -189,8 +193,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Department</label>
-                                <input type="text" id="courseDept" required value="Computer Science">
+                                <label>Lecturer Name</label>
+                                <input type="text" id="courseLecturer" required placeholder="e.g. Dr. John Doe">
                             </div>
                             <div class="form-group">
                                 <label>Max Capacity</label>
@@ -401,10 +405,10 @@
                 const [code, name] = h3.split(': ');
                 const credits = currentCard.querySelector('span').innerText.split(' ')[0]; // "3"
                 const pText = currentCard.querySelector('p').innerText;
-                // "Program: BCS • Department: Computer Science • Max Capacity: 40"
+                // "Program: BCS • Lecturer: Prof. Name • Max Capacity: 40"
                 const parts = pText.split(' • ');
                 const program = parts[0].split(': ')[1];
-                const dept = parts[1].split(': ')[1];
+                const lecturer = parts[1].split(': ')[1];
                 const capacity = parts[2].split(': ')[1];
 
                 // Populate form
@@ -413,7 +417,7 @@
                 document.getElementById('courseName').value = name;
                 document.getElementById('courseCredits').value = credits;
                 document.getElementById('courseProgram').value = program;
-                document.getElementById('courseDept').value = dept;
+                document.getElementById('courseLecturer').value = lecturer;
                 document.getElementById('courseCapacity').value = capacity;
 
                 document.getElementById('editCardId').value = "true";
@@ -437,7 +441,7 @@
                 const name = document.getElementById('courseName').value;
                 const credits = document.getElementById('courseCredits').value;
                 const program = document.getElementById('courseProgram').value;
-                const dept = document.getElementById('courseDept').value;
+                const lecturer = document.getElementById('courseLecturer').value;
                 const capacity = document.getElementById('courseCapacity').value;
 
                 if (!code || !name) {
@@ -445,12 +449,14 @@
                     return;
                 }
 
+                const infoString = `Program: \${program} • Lecturer: \${lecturer} • Max Capacity: \${capacity}`;
+
                 if (document.getElementById('editCardId').value === "true" && currentCard) {
                     // Update existing
                     currentCard.setAttribute('data-program', program);
                     currentCard.querySelector('h3').innerText = `\${code}: \${name}`;
                     currentCard.querySelector('span').innerText = `\${credits} Credits`;
-                    currentCard.querySelector('p').innerText = `Program: \${program} • Department: \${dept} • Max Capacity: \${capacity}`;
+                    currentCard.querySelector('p').innerText = infoString;
                 } else {
                     // Add new
                     const list = document.querySelector('.course-list');
@@ -463,20 +469,20 @@
                     newCard.style.borderRadius = '0.5rem';
 
                     newCard.innerHTML = `
-                        <div>
-                            <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.25rem;">
-                                <h3 style="font-size: 1.1rem; margin: 0;">\${code}: \${name}</h3>
-                                <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 0.25rem;">\${credits} Credits</span>
-                            </div>
-                            <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0.5rem 0 0 0;">Program: \${program} • Department: \${dept} • Max Capacity: \${capacity}</p>
+                    <div>
+                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.25rem;">
+                            <h3 style="font-size: 1.1rem; margin: 0;">\${code}: \${name}</h3>
+                            <span style="background: rgba(99, 102, 241, 0.1); color: var(--primary); font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 0.25rem;">\${credits} Credits</span>
                         </div>
-                        <div>
-                            <button class="btn" onclick="openEditModal(this)"
-                                style="padding: 0.5rem 1rem; font-size: 0.875rem; background: var(--bg-main); border: 1px solid var(--border); color: var(--text-muted); margin-right: 0.5rem;">Edit</button>
-                            <button class="btn" onclick="openDeleteModal(this)"
-                                style="padding: 0.5rem 1rem; font-size: 0.875rem; background: rgba(239, 68, 68, 0.1); border: 1px solid transparent; color: #ef4444;">Delete</button>
-                        </div>
-                    `;
+                        <p style="color: var(--text-muted); font-size: 0.875rem; margin: 0.5rem 0 0 0;">\${infoString}</p>
+                    </div>
+                    <div>
+                        <button class="btn" onclick="openEditModal(this)"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; background: var(--bg-main); border: 1px solid var(--border); color: var(--text-muted); margin-right: 0.5rem;">Edit</button>
+                        <button class="btn" onclick="openDeleteModal(this)"
+                            style="padding: 0.5rem 1rem; font-size: 0.875rem; background: rgba(239, 68, 68, 0.1); border: 1px solid transparent; color: #ef4444;">Delete</button>
+                    </div>
+                `;
                     list.appendChild(newCard);
                 }
 

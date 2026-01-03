@@ -55,6 +55,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/admin/results.jsp">
+                            <i data-lucide="graduation-cap"></i>
+                            Manage Results
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin/reports.jsp">
                             <i data-lucide="file-bar-chart"></i>
                             Reports
