@@ -1,4 +1,5 @@
 com/sems/dao/UserDAO.class
+com/sems/controller/admin/ReportsServlet.class
 com/sems/controller/LoginServlet.class
 com/sems/model/Course.class
 com/sems/dao/CourseDAO.class
