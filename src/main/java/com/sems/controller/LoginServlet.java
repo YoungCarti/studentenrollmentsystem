@@ -99,10 +99,11 @@ public class LoginServlet extends HttpServlet {
      * Redirect user to appropriate dashboard based on role
      */
     private void redirectToDashboard(HttpServletResponse response, User user) throws IOException {
+        // Note: sendRedirect already includes the context path automatically for absolute paths
         if (user.getRole() == User.Role.ADMIN) {
-            response.sendRedirect(response.encodeRedirectURL("admin-dashboard"));
+            response.sendRedirect("admin-dashboard");
         } else {
-            response.sendRedirect(response.encodeRedirectURL("student-dashboard"));
+            response.sendRedirect("student-dashboard");
         }
     }
 }

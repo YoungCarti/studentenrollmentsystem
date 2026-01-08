@@ -174,6 +174,16 @@ public class StudentService {
     }
     
     /**
+     * Get total count of students (alias for getTotalStudents)
+     * 
+     * @return Total number of students
+     * @throws DatabaseException if database operation fails
+     */
+    public int getTotalStudentCount() throws DatabaseException {
+        return getTotalStudents();
+    }
+    
+    /**
      * Validate student data
      * 
      * @param student Student object to validate

@@ -197,6 +197,16 @@ public class CourseService {
     }
     
     /**
+     * Get active course count (alias for getTotalCourses)
+     * 
+     * @return Total number of active courses
+     * @throws DatabaseException if database operation fails
+     */
+    public int getActiveCourseCount() throws DatabaseException {
+        return getTotalCourses();
+    }
+    
+    /**
      * Validate course data
      * 
      * @param course Course object to validate
