@@ -312,12 +312,41 @@ public class EnrollmentService {
     
     /**
      * Get count of pending enrollments
-     * 
-     * @return Count of pending enrollments
+     * \n      * @return Count of pending enrollments
      * @throws DatabaseException if database operation fails
      */
     public int getPendingEnrollmentsCount() throws DatabaseException {
         return enrollmentDAO.getCountByStatus(Enrollment.Status.PENDING);
+    }
+    
+    /**
+     * Get all pending enrollments with details
+     * 
+     * @return List of pending enrollments
+     * @throws DatabaseException if database operation fails
+     */
+    public List<Enrollment> getPendingEnrollments() throws DatabaseException {
+        return getEnrollmentsByStatus(Enrollment.Status.PENDING);
+    }
+    
+    /**
+     * Get all approved enrollments with details
+     * 
+     * @return List of approved enrollments
+     * @throws DatabaseException if database operation fails
+     */
+    public List<Enrollment> getApprovedEnrollments() throws DatabaseException {
+        return getEnrollmentsByStatus(Enrollment.Status.APPROVED);
+    }
+    
+    /**
+     * Get all rejected enrollments with details
+     * 
+     * @return List of rejected enrollments
+     * @throws DatabaseException if database operation fails
+     */
+    public List<Enrollment> getRejectedEnrollments() throws DatabaseException {
+        return getEnrollmentsByStatus(Enrollment.Status.REJECTED);
     }
     
     /**
