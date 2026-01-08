@@ -23,6 +23,7 @@ com/sems/service/CourseService.class
 com/sems/exception/DatabaseException.class
 com/sems/model/Enrollment.class
 com/sems/dao/StudentDAO.class
+com/sems/controller/admin/AdminCourseServlet.class
 com/sems/model/Enrollment$Status.class
 com/sems/util/PasswordUtil.class
 com/sems/controller/RegisterServlet.class
