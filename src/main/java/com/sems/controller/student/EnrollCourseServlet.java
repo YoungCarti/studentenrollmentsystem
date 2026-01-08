@@ -3,6 +3,7 @@ package com.sems.controller.student;
 import com.sems.exception.DatabaseException;
 import com.sems.exception.ValidationException;
 import com.sems.model.Course;
+import com.sems.model.Enrollment;
 import com.sems.model.User;
 import com.sems.service.CourseService;
 import com.sems.service.EnrollmentService;
@@ -45,9 +46,27 @@ public class EnrollCourseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
+        
         try {
+            User user = (User) session.getAttribute("user");
+            Integer studentId = user.getStudentId();
+            
+            // Get all available courses
             List<Course> courses = courseService.getAllCourses();
             request.setAttribute("courses", courses);
+            
+            // Get student's enrollments
+            if (studentId != null) {
+                EnrollmentService enrollmentService = new EnrollmentService();
+                List<Enrollment> enrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
+                request.setAttribute("enrollments", enrollments);
+            }
+            
             request.getRequestDispatcher("/student/courses.jsp").forward(request, response);
             
         } catch (DatabaseException e) {
