@@ -6,6 +6,7 @@ com/sems/dao/EnrollmentDAO.class
 com/sems/util/PasswordHashGenerator.class
 com/sems/service/AcademicCalendarService.class
 com/sems/filter/AuthenticationFilter.class
+com/sems/controller/admin/ManageStudentsServlet.class
 com/sems/controller/student/EnrollCourseServlet.class
 com/sems/filter/RoleAuthorizationFilter.class
 com/sems/exception/AuthenticationException.class
