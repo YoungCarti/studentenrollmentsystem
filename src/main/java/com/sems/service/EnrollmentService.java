@@ -358,4 +358,36 @@ public class EnrollmentService {
     public int getApprovedEnrollmentsCount() throws DatabaseException {
         return enrollmentDAO.getCountByStatus(Enrollment.Status.APPROVED);
     }
+    
+    /**
+     * Assign grade to an enrollment
+     * 
+     * @param enrollmentId Enrollment ID
+     * @param grade Grade to assign (A, B+, etc.)
+     * @throws ValidationException if validation fails
+     * @throws DatabaseException if database operation fails
+     */
+    public void assignGrade(int enrollmentId, String grade) throws ValidationException, DatabaseException {
+        Enrollment enrollment = enrollmentDAO.findById(enrollmentId);
+        
+        if (enrollment == null) {
+            throw new ValidationException("Enrollment not found");
+        }
+        
+        if (enrollment.getStatus() != Enrollment.Status.APPROVED) {
+            throw new ValidationException("Can only assign grades to approved enrollments");
+        }
+        
+        // Validate grade
+        if (grade == null || grade.trim().isEmpty()) {
+            throw new ValidationException("Grade cannot be empty");
+        }
+        
+        // Update enrollment with grade and mark as COMPLETED
+        enrollment.setGrade(grade);
+        enrollment.setStatus(Enrollment.Status.COMPLETED);
+        enrollmentDAO.update(enrollment);
+        
+        LOGGER.info("Grade " + grade + " assigned to enrollment " + enrollmentId);
+    }
 }
