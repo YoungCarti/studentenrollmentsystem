@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/student/courses.jsp">
+                        <a href="${pageContext.request.contextPath}/enroll-course">
                             <i data-lucide="book-open"></i>
                             My Courses
                         </a>
@@ -48,9 +48,9 @@
                 </ul>
 
                 <div class="user-profile" onclick="toggleProfileMenu()">
-                    <div class="avatar">JS</div>
+                    <div class="avatar">${student.firstName.substring(0,1)}${student.lastName.substring(0,1)}</div>
                     <div>
-                        <div style="font-weight: 500;">John Smith</div>
+                        <div style="font-weight: 500;">${student.firstName} ${student.lastName}</div>
                         <div style="font-size: 0.75rem; color: var(--text-muted);">Student</div>
                     </div>
                     <i data-lucide="chevron-up"
@@ -61,7 +61,7 @@
                             <i data-lucide="user" style="width: 16px; height: 16px;"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
-                        <a href="${pageContext.request.contextPath}/auth/login.jsp" class="dropdown-item text-red">
+                        <a href="${pageContext.request.contextPath}/logout" class="dropdown-item text-red">
                             <i data-lucide="log-out" style="width: 16px; height: 16px;"></i> Logout
                         </a>
                     </div>

@@ -26,7 +26,7 @@
                         </div>
                         <% } %>
 
-                            <form action="${pageContext.request.contextPath}/auth/register" method="post">
+                            <form action="${pageContext.request.contextPath}/register" method="post">
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                     <div class="form-group">
                                         <label for="firstName" class="form-label">First Name</label>
@@ -42,29 +42,27 @@
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email Address</label>
                                     <input type="email" id="email" name="email" class="form-control"
-                                        placeholder="user@example.com" required>
+                                        placeholder="student@student.edu" required>
                                 </div>
 
-
-
-                                <div class="form-group">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" id="password" name="password" class="form-control" required>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="form-group">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            minlength="6" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                        <input type="password" id="confirmPassword" name="confirmPassword"
+                                            class="form-control" minlength="6" required>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select id="role" name="role" class="form-control">
-                                        <option value="student">Student</option>
-                                        <option value="admin">Admin</option>
-                                    </select>
-                                </div>
-
-                                <button type="submit" class="btn w-full mt-4">Register</button>
+                                <button type="submit" class="btn w-full mt-4">Create Account</button>
                             </form>
 
                             <div class="mt-4 text-center" style="font-size: 0.875rem; color: var(--text-muted);">
-                                Already have an account? <a href="${pageContext.request.contextPath}/auth/login.jsp"
+                                Already have an account? <a href="${pageContext.request.contextPath}/login"
                                     style="font-weight: 500;">Sign In</a>
                             </div>
             </div>

@@ -30,11 +30,11 @@
                         </div>
                         <% } %>
 
-                            <form action="${pageContext.request.contextPath}/auth/login" method="post">
+                            <form action="${pageContext.request.contextPath}/login" method="post">
                                 <div class="form-group">
-                                    <label for="username" class="form-label">Username</label>
+                                    <label for="username" class="form-label">Email or Username</label>
                                     <input type="text" id="username" name="username" class="form-control"
-                                        placeholder="Enter your student ID or admin user" required autofocus>
+                                        placeholder="Enter your email or username" required autofocus>
                                 </div>
 
                                 <div class="form-group">
@@ -57,7 +57,7 @@
                             </form>
 
                             <div class="mt-4 text-center" style="font-size: 0.875rem; color: var(--text-muted);">
-                                Don't have an account? <a href="${pageContext.request.contextPath}/auth/register.jsp"
+                                Don't have an account? <a href="${pageContext.request.contextPath}/register"
                                     style="font-weight: 500;">Create account</a>
                             </div>
             </div>
