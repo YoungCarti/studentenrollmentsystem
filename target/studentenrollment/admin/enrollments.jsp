@@ -317,8 +317,8 @@
                                                                 <input type="hidden" name="action" value="approve">
                                                                 <input type="hidden" name="enrollmentId"
                                                                     value="${enrollment.enrollmentId}">
-                                                                <button type="submit" class="btn-approve"
-                                                                    onclick="return confirm('Approve this enrollment?')">Approve</button>
+                                                                <button type="submit"
+                                                                    class="btn-approve">Approve</button>
                                                             </form>
                                                             <button class="btn-reject"
                                                                 onclick="openRejectModal(${enrollment.enrollmentId})">Reject</button>
