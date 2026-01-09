@@ -195,7 +195,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/student/results.jsp">
+                            <a href="${pageContext.request.contextPath}/student-results">
                                 <i data-lucide="graduation-cap"></i>
                                 My Results
                             </a>

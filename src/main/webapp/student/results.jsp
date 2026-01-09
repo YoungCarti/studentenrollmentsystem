@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="${pageContext.request.contextPath}/student/results.jsp" class="active">
+                                <a href="${pageContext.request.contextPath}/student-results" class="active">
                                     <i data-lucide="graduation-cap"></i>
                                     My Results
                                 </a>
@@ -82,15 +82,64 @@
                             </div>
                         </header>
 
-                        <div class="empty-state"
-                            style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: 12px;">
-                            <i data-lucide="file-text"
-                                style="width: 64px; height: 64px; color: var(--text-muted); margin-bottom: 1rem;"></i>
-                            <h2 style="color: var(--text-primary); margin-bottom: 0.5rem;">No Results Available</h2>
-                            <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
-                                You don't have any completed courses with grades yet. Results will appear here once your
-                                courses are completed and graded by instructors.
-                            </p>
+                        <c:if test="${not empty error}">
+                            <div
+                                style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                                ${error}
+                            </div>
+                        </c:if>
+
+                        <div class="card">
+                            <c:choose>
+                                <c:when test="${not empty results}">
+                                    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                                        <thead>
+                                            <tr style="border-bottom: 2px solid var(--border);">
+                                                <th
+                                                    style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
+                                                    Course</th>
+                                                <th
+                                                    style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
+                                                    Credits</th>
+                                                <th
+                                                    style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem; text-align: center;">
+                                                    Grade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="enrollment" items="${results}">
+                                                <tr style="border-bottom: 1px solid var(--border);">
+                                                    <td style="padding: 1rem;">
+                                                        <div style="font-weight: 500;">${enrollment.courseCode}</div>
+                                                        <div style="font-size: 0.875rem; color: var(--text-muted);">
+                                                            ${enrollment.courseName}</div>
+                                                    </td>
+                                                    <td style="padding: 1rem;">${enrollment.credits}</td>
+                                                    <td style="padding: 1rem; text-align: center;">
+                                                        <span
+                                                            style="font-weight: 600; font-size: 1.1rem; color: var(--primary);">${enrollment.grade}</span>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="empty-state" style="text-align: center; padding: 4rem 2rem;">
+                                        <i data-lucide="file-text"
+                                            style="width: 64px; height: 64px; color: var(--text-muted); margin-bottom: 1rem;"></i>
+                                        <h2 style="color: var(--text-primary); margin-bottom: 0.5rem;">No Results
+                                            Available
+                                        </h2>
+                                        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">
+                                            You don't have any completed courses with grades yet. Results will appear
+                                            here
+                                            once your
+                                            courses are completed and graded by instructors.
+                                        </p>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </main>
                 </div>

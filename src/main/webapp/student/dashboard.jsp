@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="${pageContext.request.contextPath}/student/results.jsp">
+                                <a href="${pageContext.request.contextPath}/student-results">
                                     <i data-lucide="graduation-cap"></i>
                                     My Results
                                 </a>
@@ -120,17 +120,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <c:set var="rowNum" value="1" />
-                                <c:forEach var="event" items="${calendarEvents}">
-                                    <tr>
-                                        <td>${rowNum}</td>
-                                        <td>${event.activityName}</td>
-                                        <td>${event.formattedStartDate}</td>
-                                        <td>${event.formattedEndDate}</td>
-                                    </tr>
-                                    <c:set var="rowNum" value="${rowNum + 1}" />
-                                </c:forEach>
-                            </tbody>
+                                    <c:set var="rowNum" value="1" />
+                                    <c:forEach var="event" items="${calendarEvents}">
+                                        <tr>
+                                            <td>${rowNum}</td>
+                                            <td>${event.activityName}</td>
+                                            <td>${event.formattedStartDate}</td>
+                                            <td>${event.formattedEndDate}</td>
+                                        </tr>
+                                        <c:set var="rowNum" value="${rowNum + 1}" />
+                                    </c:forEach>
+                                </tbody>
                             </table>
                         </div>
                     </main>
