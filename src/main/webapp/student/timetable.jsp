@@ -169,50 +169,80 @@
                                         courseName: '${enrollment.courseName}',
                                         schedule: '${enrollment.schedule}',
                                         instructor: '${enrollment.instructor}'
-                                }${!status.last ? ',' : ''}
+                                        }${!status.last ? ',' : ''}
                                     </c:forEach>
                                 ];
 
                                 // Parse schedule and place in calendar
                                 enrollments.forEach(course => {
-                                    if (!course.schedule || course.schedule === 'null') return;
+                                    if (!course.schedule || course.schedule === 'null' || course.schedule.trim() === '') return;
 
-                                    const scheduleStr = course.schedule.toLowerCase();
-
-                                    // Parse days (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
+                                    // Normalize schedule string
+                                    const scheduleStr = course.schedule.toLowerCase().replace(/\s+/g, ' ').trim();
                                     const days = [];
-                                    if (scheduleStr.includes('mon')) days.push('mon');
-                                    if (scheduleStr.includes('tue')) days.push('tue');
-                                    if (scheduleStr.includes('wed')) days.push('wed');
-                                    if (scheduleStr.includes('thu')) days.push('thu');
-                                    if (scheduleStr.includes('fri')) days.push('fri');
-                                    if (scheduleStr.includes('sat')) days.push('sat');
-                                    if (scheduleStr.includes('sun')) days.push('sun');
 
-                                    // Parse start hour (simple parsing for common formats)
-                                    let startHour = 9; // default
-                                    const hourMatch = scheduleStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
-                                    if (hourMatch) {
-                                        let hour = parseInt(hourMatch[1]);
-                                        const isPM = hourMatch[3] && hourMatch[3].toLowerCase() === 'pm';
-                                        if (isPM && hour < 12) hour += 12;
-                                        if (!isPM && hour === 12) hour = 0;
-                                        startHour = hour;
+                                    // Day Parsing
+                                    if (scheduleStr.includes('mon') || /\bm\b/.test(scheduleStr)) days.push('mon');
+                                    if (scheduleStr.includes('tue') || /\bt\b/.test(scheduleStr)) days.push('tue');
+                                    if (scheduleStr.includes('wed') || /\bw\b/.test(scheduleStr)) days.push('wed');
+                                    if (scheduleStr.includes('thu') || scheduleStr.includes('r') || /\br\b/.test(scheduleStr)) days.push('thu');
+                                    if (scheduleStr.includes('fri') || /\bf\b/.test(scheduleStr)) days.push('fri');
+                                    if (scheduleStr.includes('sat') || /\bs\b/.test(scheduleStr)) days.push('sat');
+                                    if (scheduleStr.includes('sun') || /\bu\b/.test(scheduleStr)) days.push('sun');
+
+                                    if (scheduleStr.includes('tth') || (scheduleStr.includes('t') && scheduleStr.includes('th') && !scheduleStr.includes('tue'))) {
+                                        if (!days.includes('tue')) days.push('tue');
+                                        if (!days.includes('thu')) days.push('thu');
                                     }
 
-                                    // Place course in cells
+                                    // Time Parsing for Range (e.g., "9:00 AM - 11:00 AM")
+                                    let startHour = -1;
+                                    let endHour = -1;
+
+                                    const timeMatches = scheduleStr.match(/(\d{1,2})(:(\d{2}))?\s*(am|pm)?/gi);
+
+                                    function parseMatch(matchStr) {
+                                        const parts = matchStr.match(/(\d{1,2})(:(\d{2}))?\s*(am|pm)?/i);
+                                        if (!parts) return -1;
+                                        let h = parseInt(parts[1]);
+                                        const isPM = (parts[4] && parts[4].toLowerCase() === 'pm') || (h < 8 && !parts[4]);
+                                        if (isPM && h < 12) h += 12;
+                                        if (!isPM && h === 12) h = 0;
+                                        return h;
+                                    }
+
+                                    if (timeMatches && timeMatches.length >= 1) {
+                                        startHour = parseMatch(timeMatches[0]);
+                                        if (timeMatches.length >= 2) {
+                                            endHour = parseMatch(timeMatches[1]);
+                                        } else {
+                                            endHour = startHour + 1; // Default 1 hour duration
+                                        }
+                                    }
+
+                                    if (startHour === -1 && days.length > 0) {
+                                        startHour = 9;
+                                        endHour = 10;
+                                    }
+
+                                    // Place course in cells for the entire duration
                                     days.forEach(day => {
-                                        const cellId = `cell-${day}-${startHour}`;
-                                        const cell = document.getElementById(cellId);
-                                        if (cell) {
-                                            const classBlock = document.createElement('div');
-                                            classBlock.className = 'class-block';
-                                            classBlock.innerHTML = `
-                                        <div class="class-code">${course.courseCode}</div>
-                                        <div class="class-name">${course.courseName}</div>
-                                    `;
-                                            classBlock.title = `${course.courseName}\n${course.schedule}\n${course.instructor}`;
-                                            cell.appendChild(classBlock);
+                                        // Loop through each hour in the range
+                                        for (let h = startHour; h < endHour; h++) {
+                                            const displayHour = Math.max(8, Math.min(20, h));
+                                            const cellId = "cell-" + day + "-" + displayHour;
+                                            const cell = document.getElementById(cellId);
+
+                                            if (cell) {
+                                                const classBlock = document.createElement('div');
+                                                classBlock.className = 'class-block';
+                                                classBlock.innerHTML =
+                                                    '<div class="class-code">' + course.courseCode + '</div>' +
+                                                    '<div class="class-name">' + course.courseName + '</div>';
+
+                                                classBlock.title = course.courseName + '\nSchedule: ' + course.schedule + '\nInstructor: ' + course.instructor;
+                                                cell.appendChild(classBlock);
+                                            }
                                         }
                                     });
                                 });
