@@ -5,6 +5,7 @@ com/sems/model/Course.class
 com/sems/dao/CourseDAO.class
 com/sems/dao/EnrollmentDAO.class
 com/sems/controller/admin/ManageResultsServlet.class
+com/sems/controller/student/StudentTimetableServlet.class
 com/sems/util/PasswordHashGenerator.class
 com/sems/service/AcademicCalendarService.class
 com/sems/filter/AuthenticationFilter.class
