@@ -126,7 +126,7 @@
                     </div>
 
                     <!-- Recent Activity -->
-                    <h2 class="mb-4">Recent System Activity</h2>
+                    <h2 class="mb-4">Recent Activities</h2>
                     <div class="card">
                         <c:choose>
                             <c:when test="${not empty recentActivities}">

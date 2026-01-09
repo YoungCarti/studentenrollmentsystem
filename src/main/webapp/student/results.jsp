@@ -61,7 +61,7 @@
                                 style="margin-left: auto; width: 16px; height: 16px; color: var(--text-muted);"></i>
 
                             <div class="profile-dropdown" id="profileDropdown">
-                                <a href="${pageContext.request.contextPath}/student/profile.jsp" class="dropdown-item">
+                                <a href="${pageContext.request.contextPath}/student-profile" class="dropdown-item">
                                     <i data-lucide="user" style="width: 16px; height: 16px;"></i> Profile
                                 </a>
                                 <div class="dropdown-divider"></div>

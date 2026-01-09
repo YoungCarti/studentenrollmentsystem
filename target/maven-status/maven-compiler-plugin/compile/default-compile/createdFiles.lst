@@ -41,3 +41,4 @@ com/sems/controller/admin/AdminCalendarServlet.class
 com/sems/model/User.class
 com/sems/dao/AcademicCalendarDAO.class
 com/sems/util/DatabaseConnection.class
+com/sems/controller/student/StudentProfileServlet.class

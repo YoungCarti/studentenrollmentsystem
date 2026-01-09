@@ -57,7 +57,7 @@
                         style="margin-left: auto; width: 16px; height: 16px; color: var(--text-muted);"></i>
 
                     <div class="profile-dropdown" id="profileDropdown">
-                        <a href="${pageContext.request.contextPath}/student/profile.jsp" class="dropdown-item">
+                        <a href="${pageContext.request.contextPath}/student-profile" class="dropdown-item">
                             <i data-lucide="user" style="width: 16px; height: 16px;"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
@@ -71,121 +71,73 @@
             <!-- Main Content -->
             <main class="main-content">
                 <div class="profile-container">
-                    <!-- Grid Layout for 2 Columns -->
-                    <!-- We place items in order: Left1, Right1, Left2, Right2, etc. so they align in rows -->
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-error" style="margin-bottom: 2rem;">
+                            <i data-lucide="alert-circle"></i>
+                            ${error}
+                        </div>
+                    </c:if>
+
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;">
 
-                        <!-- Row 1 Left: Student Info -->
+                        <!-- Student Information -->
                         <div class="section-block">
                             <h3 class="section-title">Student Information</h3>
                             <div class="info-grid">
                                 <div class="info-row">
-                                    <span class="label">Name</span>
-                                    <span class="value">SAABIRESH LETCHUMANAN</span>
+                                    <span class="label">Full Name</span>
+                                    <span class="value">${student.firstName} ${student.lastName}</span>
                                 </div>
                                 <div class="info-row">
-                                    <span class="label">Student No.</span>
-                                    <span class="value">B02240005</span>
-                                </div>
-
-                                <div class="info-row">
-                                    <span class="label">Campus</span>
-                                    <span class="value">University Malaysia of Computer Science and Engineering
-                                        (UNIMY)</span>
+                                    <span class="label">Student ID</span>
+                                    <span class="value">STU-${student.studentId}</span>
                                 </div>
                                 <div class="info-row">
-                                    <span class="label">Programme</span>
-                                    <span class="value">Bachelor of Computer Science with Honours (BCS)</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Intake</span>
-                                    <span class="value">February 2024 (B2402)</span>
+                                    <span class="label">Email Address</span>
+                                    <span class="value">${student.email}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Row 1 Right: Preference -->
-                        <div class="section-block">
-                            <h3 class="section-title">Preference</h3>
-                            <div class="info-grid">
-                                <div class="info-row">
-                                    <span class="label">Gender</span>
-                                    <span class="value">Male</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Race</span>
-                                    <span class="value">Indian</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Religion</span>
-                                    <span class="value">Hindu</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Marital Status</span>
-                                    <span class="value">Single</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Row 2 Left: Personal Information -->
+                        <!-- Personal Information -->
                         <div class="section-block">
                             <h3 class="section-title">Personal Information</h3>
                             <div class="info-grid">
                                 <div class="info-row">
-                                    <span class="label">Nationality</span>
-                                    <span class="value">Malaysian</span>
+                                    <span class="label">Date of Birth</span>
+                                    <span class="value">${student.dob}</span>
                                 </div>
                                 <div class="info-row">
-                                    <span class="label">Country of Origin</span>
-                                    <span class="value">Malaysia</span>
-                                </div>
-
-                                <div class="info-row">
-                                    <span class="label">IC/Passport No.</span>
-                                    <span class="value">-</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">D.O.B</span>
-                                    <span class="value">23/11/2004</span>
+                                    <span class="label">Enrollment Date</span>
+                                    <span class="value">${student.enrollmentDate}</span>
                                 </div>
                             </div>
                         </div>
 
-
-
-                        <!-- Row 3 Left: Contact Information -->
-
-
-                        <!-- Row 3 Right: HOC/Dean -->
+                        <!-- Contact Information -->
                         <div class="section-block">
-                            <h3 class="section-title">HOC/Dean Details</h3>
+                            <h3 class="section-title">Contact Information</h3>
                             <div class="info-grid">
                                 <div class="info-row">
-                                    <span class="label">Name</span>
-                                    <span class="value">NUR FAIQAH BINTI AB HAMID @ FAUZI</span>
+                                    <span class="label">Phone Number</span>
+                                    <span class="value">${not empty student.phone ? student.phone : '-'}</span>
                                 </div>
                                 <div class="info-row">
-                                    <span class="label">Email</span>
-                                    <span class="value text-blue">faiqah.fauzi@unimy.edu.my</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Mobile No</span>
-                                    <span class="value text-blue">0136279412</span>
+                                    <span class="label">Address</span>
+                                    <span class="value">${not empty student.address ? student.address : '-'}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Row 4 Left: Status -->
+                        <!-- Status -->
                         <div class="section-block">
-                            <h3 class="section-title">Status</h3>
+                            <h3 class="section-title">Account Status</h3>
                             <div class="info-grid">
                                 <div class="info-row">
-                                    <span class="label">Registered</span>
-                                    <span class="value">19/02/2024</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="label">Active</span>
-                                    <span class="value">19/02/2024</span>
+                                    <span class="label">Status</span>
+                                    <span class="value">
+                                        <span class="badge badge-success">Active</span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
