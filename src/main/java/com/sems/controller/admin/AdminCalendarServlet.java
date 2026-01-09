@@ -2,7 +2,9 @@ package com.sems.controller.admin;
 
 import com.sems.exception.DatabaseException;
 import com.sems.model.AcademicCalendar;
+import com.sems.model.User;
 import com.sems.service.AcademicCalendarService;
+import com.sems.service.SystemActivityService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,6 +25,7 @@ public class AdminCalendarServlet extends HttpServlet {
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     
     private final AcademicCalendarService calendarService = new AcademicCalendarService();
+    private final SystemActivityService activityService = new SystemActivityService();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -58,6 +61,8 @@ public class AdminCalendarServlet extends HttpServlet {
             return;
         }
         
+        User user = (User) session.getAttribute("user");
+        
         try {
             int calendarId = Integer.parseInt(request.getParameter("calendarId"));
             String activityName = request.getParameter("activityName");
@@ -74,6 +79,11 @@ public class AdminCalendarServlet extends HttpServlet {
                 calendar.setEndDate(endDate);
                 
                 calendarService.updateEvent(calendar);
+                
+                // Log activity
+                activityService.logActivity(user.getUserId(), user.getRole().toString(), "UPDATE_CALENDAR", 
+                    "Updated calendar event: " + activityName);
+                
                 LOGGER.info("Updated calendar event ID: " + calendarId + " to: " + activityName);
             }
             

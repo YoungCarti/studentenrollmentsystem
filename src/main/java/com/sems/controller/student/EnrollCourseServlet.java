@@ -7,6 +7,7 @@ import com.sems.model.Enrollment;
 import com.sems.model.User;
 import com.sems.service.CourseService;
 import com.sems.service.EnrollmentService;
+import com.sems.service.SystemActivityService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -32,11 +33,13 @@ public class EnrollCourseServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(EnrollCourseServlet.class.getName());
     private CourseService courseService;
     private EnrollmentService enrollmentService;
+    private SystemActivityService activityService;
     
     @Override
     public void init() throws ServletException {
         courseService = new CourseService();
         enrollmentService = new EnrollmentService();
+        activityService = new SystemActivityService();
     }
     
     /**
@@ -62,7 +65,6 @@ public class EnrollCourseServlet extends HttpServlet {
             // Get student's enrollments
             List<Enrollment> enrollments = new java.util.ArrayList<>();
             if (studentId != null) {
-                EnrollmentService enrollmentService = new EnrollmentService();
                 enrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
                 
                 // Filter out courses student is already enrolled in (PENDING, APPROVED, COMPLETED)
@@ -126,6 +128,10 @@ public class EnrollCourseServlet extends HttpServlet {
                 int courseId = Integer.parseInt(request.getParameter("courseId"));
                 enrollmentService.enrollStudent(studentId, courseId);
                 
+                // Log activity
+                activityService.logActivity(user.getUserId(), "STUDENT", "ENROLL_COURSE", 
+                    "Enrolled in course ID: " + courseId);
+                
                 request.setAttribute("success", "Successfully enrolled in course");
                 
             } else if ("drop".equals(action)) {
@@ -133,6 +139,10 @@ public class EnrollCourseServlet extends HttpServlet {
                 LOGGER.info("DROP ACTION RECEIVED - Enrollment ID: " + enrollmentId + " by student: " + studentId);
                 enrollmentService.dropCourse(enrollmentId);
                 LOGGER.info("DROP ACTION COMPLETED - Enrollment ID: " + enrollmentId);
+                
+                // Log activity
+                activityService.logActivity(user.getUserId(), "STUDENT", "DROP_COURSE", 
+                    "Dropped enrollment ID: " + enrollmentId);
                 
                 request.setAttribute("success", "Successfully dropped course");
             }

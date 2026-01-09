@@ -5,6 +5,7 @@ import com.sems.exception.ValidationException;
 import com.sems.model.Course;
 import com.sems.model.User;
 import com.sems.service.CourseService;
+import com.sems.service.SystemActivityService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -29,10 +30,12 @@ public class AdminCourseServlet extends HttpServlet {
     
     private static final Logger LOGGER = Logger.getLogger(AdminCourseServlet.class.getName());
     private CourseService courseService;
+    private SystemActivityService activityService;
     
     @Override
     public void init() throws ServletException {
         courseService = new CourseService();
+        activityService = new SystemActivityService();
     }
     
     @Override
@@ -87,7 +90,7 @@ public class AdminCourseServlet extends HttpServlet {
         String action = request.getParameter("action");
         
         if ("add".equals(action)) {
-            addCourse(request, response);
+            addCourse(request, response, user);
         } else if ("edit".equals(action)) {
             editCourse(request, response);
         } else if ("delete".equals(action)) {
@@ -97,7 +100,7 @@ public class AdminCourseServlet extends HttpServlet {
         }
     }
     
-    private void addCourse(HttpServletRequest request, HttpServletResponse response)
+    private void addCourse(HttpServletRequest request, HttpServletResponse response, User admin)
             throws ServletException, IOException {
         
         try {
@@ -122,6 +125,10 @@ public class AdminCourseServlet extends HttpServlet {
             
             // Save to database
             courseService.createCourse(course);
+            
+            // Log activity
+            activityService.logActivity(admin.getUserId(), "ADMIN", "ADD_COURSE", 
+                "Added new course: " + courseCode + " - " + courseName);
             
             // Redirect with success message
             response.sendRedirect(request.getContextPath() + "/admin-courses?success=Course added successfully");

@@ -6,6 +6,7 @@ import com.sems.model.Student;
 import com.sems.model.User;
 import com.sems.service.AuthenticationService;
 import com.sems.service.StudentService;
+import com.sems.service.SystemActivityService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,11 +31,13 @@ public class RegisterServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class.getName());
     private StudentService studentService;
     private AuthenticationService authService;
+    private SystemActivityService activityService;
     
     @Override
     public void init() throws ServletException {
         studentService = new StudentService();
         authService = new AuthenticationService();
+        activityService = new SystemActivityService();
     }
     
     /**
@@ -87,7 +90,11 @@ public class RegisterServlet extends HttpServlet {
             int studentId = studentService.registerStudent(student);
             
             // Create user account
-            authService.register(username, password, User.Role.STUDENT, studentId);
+            int userId = authService.register(username, password, User.Role.STUDENT, studentId);
+            
+            // Log activity
+            activityService.logActivity(userId, "STUDENT", "STUDENT_REGISTER", 
+                "New student registered: " + email);
             
             LOGGER.info("New student registered: " + email);
             
