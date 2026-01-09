@@ -57,14 +57,36 @@ public class EnrollCourseServlet extends HttpServlet {
             Integer studentId = user.getStudentId();
             
             // Get all available courses
-            List<Course> courses = courseService.getAllCourses();
-            request.setAttribute("courses", courses);
+            List<Course> allCourses = courseService.getAllCourses();
             
             // Get student's enrollments
+            List<Enrollment> enrollments = new java.util.ArrayList<>();
             if (studentId != null) {
                 EnrollmentService enrollmentService = new EnrollmentService();
-                List<Enrollment> enrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
+                enrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
+                
+                // Filter out courses student is already enrolled in (PENDING, APPROVED, COMPLETED)
+                java.util.Set<Integer> enrolledCourseIds = new java.util.HashSet<>();
+                for (Enrollment e : enrollments) {
+                    if (e.getStatus() == Enrollment.Status.PENDING || 
+                        e.getStatus() == Enrollment.Status.APPROVED ||
+                        e.getStatus() == Enrollment.Status.COMPLETED) {
+                        enrolledCourseIds.add(e.getCourseId());
+                    }
+                }
+                
+                // Filter available courses
+                List<Course> availableCourses = new java.util.ArrayList<>();
+                for (Course c : allCourses) {
+                    if (!enrolledCourseIds.contains(c.getCourseId())) {
+                        availableCourses.add(c);
+                    }
+                }
+                
+                request.setAttribute("courses", availableCourses);
                 request.setAttribute("enrollments", enrollments);
+            } else {
+                request.setAttribute("courses", allCourses);
             }
             
             request.getRequestDispatcher("/student/courses.jsp").forward(request, response);
@@ -108,13 +130,15 @@ public class EnrollCourseServlet extends HttpServlet {
                 
             } else if ("drop".equals(action)) {
                 int enrollmentId = Integer.parseInt(request.getParameter("enrollmentId"));
+                LOGGER.info("DROP ACTION RECEIVED - Enrollment ID: " + enrollmentId + " by student: " + studentId);
                 enrollmentService.dropCourse(enrollmentId);
+                LOGGER.info("DROP ACTION COMPLETED - Enrollment ID: " + enrollmentId);
                 
                 request.setAttribute("success", "Successfully dropped course");
             }
             
             // Redirect to avoid form resubmission
-            response.sendRedirect(request.getContextPath() + "/student-dashboard");
+            response.sendRedirect(request.getContextPath() + "/enroll-course");
             
         } catch (ValidationException e) {
             LOGGER.warning("Enrollment validation error: " + e.getMessage());

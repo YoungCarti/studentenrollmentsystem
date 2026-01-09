@@ -226,6 +226,37 @@ public class EnrollmentDAO {
     }
     
     /**
+     * Find an enrollment by student and course (regardless of status)
+     * 
+     * @param studentId Student ID
+     * @param courseId Course ID
+     * @return Enrollment object if found, null otherwise
+     * @throws DatabaseException if query fails
+     */
+    public Enrollment findByStudentAndCourse(int studentId, int courseId) throws DatabaseException {
+        String sql = "SELECT * FROM enrollments WHERE student_id = ? AND course_id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, studentId);
+            stmt.setInt(2, courseId);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToEnrollment(rs);
+                }
+            }
+            
+            return null;
+            
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error finding enrollment by student and course", e);
+            throw new DatabaseException("Failed to find enrollment: " + e.getMessage(), e);
+        }
+    }
+    
+    /**
      * Update an existing enrollment
      * 
      * @param enrollment Enrollment object with updated data

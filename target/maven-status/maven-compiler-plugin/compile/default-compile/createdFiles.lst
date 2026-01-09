@@ -36,6 +36,7 @@ com/sems/service/AuthenticationService.class
 com/sems/service/SystemActivityService.class
 com/sems/model/SystemActivity.class
 com/sems/model/User$Role.class
+com/sems/controller/admin/AdminCalendarServlet.class
 com/sems/model/User.class
 com/sems/dao/AcademicCalendarDAO.class
 com/sems/util/DatabaseConnection.class

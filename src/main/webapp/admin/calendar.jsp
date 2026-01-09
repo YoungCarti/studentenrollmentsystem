@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -67,7 +69,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin/calendar.jsp" class="active">
+                        <a href="${pageContext.request.contextPath}/admin-calendar" class="active">
                             <i data-lucide="calendar"></i>
                             Manage Academic Calendar
                         </a>
@@ -146,132 +148,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Activities -->
-                            <tr>
-                                <td>1</td>
-                                <td>Subject registration</td>
-                                <td>15-08-2025</td>
-                                <td>29-09-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Registration of new student</td>
-                                <td>18-09-2025</td>
-                                <td>19-09-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Orientation for new student</td>
-                                <td>18-09-2025</td>
-                                <td>19-09-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Lecture session</td>
-                                <td>22-09-2025</td>
-                                <td>02-11-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Add Drop session</td>
-                                <td>29-09-2025</td>
-                                <td>12-10-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Add Drop session with penalty</td>
-                                <td>13-10-2025</td>
-                                <td>28-10-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>Mid semester break</td>
-                                <td>03-11-2025</td>
-                                <td>09-11-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td class="text-primary" style="color: #6366f1;">Lecture session</td>
-                                <td>10-11-2025</td>
-                                <td>04-01-2026</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td class="text-primary" style="color: #6366f1;">Lecturer Evaluation</td>
-                                <td>02-12-2025</td>
-                                <td>11-01-2026</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td>Study week</td>
-                                <td>05-01-2026</td>
-                                <td>11-01-2026</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>11</td>
-                                <td>Final exam</td>
-                                <td>12-01-2026</td>
-                                <td>23-01-2026</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>12</td>
-                                <td>Semester break</td>
-                                <td>24-01-2026</td>
-                                <td>01-02-2026</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-
-                            <!-- Breaks -->
-                            <tr>
-                                <td colspan="5" class="section-header">FESTIVE BREAKS</td>
-                            </tr>
-                            <tr>
-                                <td>15</td>
-                                <td>Malaysia Day</td>
-                                <td>16-09-2025</td>
-                                <td>16-09-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>16</td>
-                                <td>DEEPAVALI</td>
-                                <td>20-10-2025</td>
-                                <td>20-10-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
-                            <tr>
-                                <td>17</td>
-                                <td>Sultan of Selangor's Birthday</td>
-                                <td>11-12-2025</td>
-                                <td>11-12-2025</td>
-                                <td><button class="btn-icon" onclick="openEditModal(this)"><i data-lucide="edit-2"
-                                            style="width: 16px; height: 16px;"></i></button></td>
-                            </tr>
+                            <c:set var="rowNum" value="1" />
+                            <c:forEach var="event" items="${calendarEvents}">
+                                <tr data-calendar-id="${event.calendarId}">
+                                    <td>${rowNum}</td>
+                                    <td>${event.activityName}</td>
+                                    <td>${event.formattedStartDate}</td>
+                                    <td>${event.formattedEndDate}</td>
+                                    <td>
+                                        <button class="btn-icon" onclick="openEditModal(this)">
+                                            <i data-lucide="edit-2" style="width: 16px; height: 16px;"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <c:set var="rowNum" value="${rowNum + 1}" />
+                            </c:forEach>
                         </tbody>
                     </table>
                 </div>
@@ -286,22 +177,23 @@
                     <span class="close" onclick="closeModal()">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm">
+                    <form id="editForm" action="${pageContext.request.contextPath}/admin-calendar" method="post">
+                        <input type="hidden" name="calendarId" id="editCalendarId">
                         <div class="form-group">
                             <label>Activity Name</label>
-                            <input type="text" id="editActivity" required>
+                            <input type="text" name="activityName" id="editActivity" required>
                         </div>
                         <div class="form-group">
                             <label>Start Date</label>
-                            <input type="text" id="editStartDate" required placeholder="DD-MM-YYYY">
+                            <input type="text" name="startDate" id="editStartDate" required placeholder="DD-MM-YYYY">
                         </div>
                         <div class="form-group">
                             <label>End Date</label>
-                            <input type="text" id="editEndDate" required placeholder="DD-MM-YYYY">
+                            <input type="text" name="endDate" id="editEndDate" required placeholder="DD-MM-YYYY">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-                            <button type="button" class="btn" onclick="saveChanges()">Save Changes</button>
+                            <button type="submit" class="btn">Save Changes</button>
                         </div>
                     </form>
                 </div>
@@ -430,7 +322,12 @@
 
             function openEditModal(button) {
                 currentRow = button.closest('tr');
+                const calendarId = currentRow.getAttribute('data-calendar-id');
                 const cells = currentRow.getElementsByTagName('td');
+
+                // Set calendarId in hidden input
+                document.getElementById('editCalendarId').value = calendarId || '';
+
                 // Index 0 is No, 1 is Activity, 2 is Start, 3 is End
                 document.getElementById('editActivity').value = cells[1].innerText;
                 document.getElementById('editStartDate').value = cells[2].innerText;
@@ -441,17 +338,6 @@
 
             function closeModal() {
                 document.getElementById('editModal').style.display = 'none';
-            }
-
-            function saveChanges() {
-                if (currentRow) {
-                    const cells = currentRow.getElementsByTagName('td');
-                    cells[1].innerText = document.getElementById('editActivity').value;
-                    cells[2].innerText = document.getElementById('editStartDate').value;
-                    cells[3].innerText = document.getElementById('editEndDate').value;
-                }
-                closeModal();
-                // In real app, send AJAX request to update DB
             }
         </script>
     </body>

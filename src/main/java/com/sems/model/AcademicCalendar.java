@@ -2,16 +2,12 @@ package com.sems.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-/**
- * Academic Calendar entity representing semester events and activities.
- * 
- * @author SEMS Team
- * @version 1.0
- */
 public class AcademicCalendar implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final DateTimeFormatter DISPLAY_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     
     private int calendarId;
     private String semester;
@@ -20,15 +16,8 @@ public class AcademicCalendar implements Serializable {
     private LocalDate endDate;
     private String description;
     
-    /**
-     * Default constructor
-     */
-    public AcademicCalendar() {
-    }
+    public AcademicCalendar() {}
     
-    /**
-     * Constructor without ID (for new events)
-     */
     public AcademicCalendar(String semester, String activityName, LocalDate startDate, LocalDate endDate) {
         this.semester = semester;
         this.activityName = activityName;
@@ -36,9 +25,6 @@ public class AcademicCalendar implements Serializable {
         this.endDate = endDate;
     }
     
-    /**
-     * Constructor with all fields
-     */
     public AcademicCalendar(int calendarId, String semester, String activityName, 
                            LocalDate startDate, LocalDate endDate, String description) {
         this.calendarId = calendarId;
@@ -49,54 +35,32 @@ public class AcademicCalendar implements Serializable {
         this.description = description;
     }
     
-    // Getters and Setters
+    // Standard getters/setters
+    public int getCalendarId() { return calendarId; }
+    public void setCalendarId(int calendarId) { this.calendarId = calendarId; }
     
-    public int getCalendarId() {
-        return calendarId;
+    public String getSemester() { return semester; }
+    public void setSemester(String semester) { this.semester = semester; }
+    
+    public String getActivityName() { return activityName; }
+    public void setActivityName(String activityName) { this.activityName = activityName; }
+    
+    public LocalDate getStartDate() { return startDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    
+    public LocalDate getEndDate() { return endDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+    
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    
+    // Formatted date getters for JSP display
+    public String getFormattedStartDate() {
+        return startDate != null ? startDate.format(DISPLAY_FORMATTER) : "";
     }
     
-    public void setCalendarId(int calendarId) {
-        this.calendarId = calendarId;
-    }
-    
-    public String getSemester() {
-        return semester;
-    }
-    
-    public void setSemester(String semester) {
-        this.semester = semester;
-    }
-    
-    public String getActivityName() {
-        return activityName;
-    }
-    
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-    
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-    
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public void setDescription(String description) {
-        this.description = description;
+    public String getFormattedEndDate() {
+        return endDate != null ? endDate.format(DISPLAY_FORMATTER) : "";
     }
     
     @Override

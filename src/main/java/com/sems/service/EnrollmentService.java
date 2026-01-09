@@ -60,7 +60,7 @@ public class EnrollmentService {
             throw new ValidationException("Course not found with ID: " + courseId);
         }
         
-        // Check for enrollment conflict (already enrolled)
+        // Check for enrollment conflict (already enrolled in PENDING or APPROVED status)
         boolean alreadyEnrolled = enrollmentDAO.checkEnrollmentExists(studentId, courseId);
         if (alreadyEnrolled) {
             throw new ValidationException("Student is already enrolled in this course");
@@ -72,7 +72,7 @@ public class EnrollmentService {
             throw new ValidationException("Course is full. No available seats.");
         }
         
-        // Create enrollment with PENDING status (requires admin approval)
+        // Create new enrollment with PENDING status (requires admin approval)
         Enrollment enrollment = new Enrollment(studentId, courseId, LocalDate.now());
         enrollment.setStatus(Enrollment.Status.PENDING);
         
@@ -84,7 +84,7 @@ public class EnrollmentService {
     }
     
     /**
-     * Drop a course (change status to DROPPED)
+     * Drop a course (DELETE enrollment from database)
      * 
      * @param enrollmentId Enrollment ID
      * @return true if successfully dropped
@@ -102,14 +102,14 @@ public class EnrollmentService {
             throw new ValidationException("Can only drop courses with APPROVED status");
         }
         
-        enrollment.setStatus(Enrollment.Status.DROPPED);
-        boolean updated = enrollmentDAO.update(enrollment);
+        // Delete the enrollment completely from database
+        boolean deleted = enrollmentDAO.delete(enrollmentId);
         
-        if (updated) {
-            LOGGER.info("Successfully dropped enrollment ID: " + enrollmentId);
+        if (deleted) {
+            LOGGER.info("Successfully deleted enrollment ID: " + enrollmentId);
         }
         
-        return updated;
+        return deleted;
     }
     
     /**
