@@ -25,19 +25,19 @@
 
                     <ul class="nav-links">
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/student/dashboard.jsp" class="active">
+                            <a href="${pageContext.request.contextPath}/student-dashboard" class="active">
                                 <i data-lucide="layout-dashboard"></i>
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/student/timetable.jsp">
+                            <a href="${pageContext.request.contextPath}/student-timetable">
                                 <i data-lucide="calendar"></i>
                                 Timetable
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="${pageContext.request.contextPath}/student/courses.jsp">
+                            <a href="${pageContext.request.contextPath}/enroll-course">
                                 <i data-lucide="book-open"></i>
                                 My Courses
                             </a>

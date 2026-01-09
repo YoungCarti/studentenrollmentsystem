@@ -56,13 +56,18 @@ public class StudentTimetableServlet extends HttpServlet {
             Integer studentId = user.getStudentId();
             
             // Get student's approved enrollments with course details (including schedule)
-            List<Enrollment> enrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
+            List<Enrollment> allEnrollments = enrollmentService.getStudentCoursesWithDetails(studentId);
             
-            // Filter only approved enrollments for timetable
-            List<Enrollment> approvedEnrollments = enrollments.stream()
-                .filter(e -> e.getStatus() == Enrollment.Status.APPROVED || 
-                           e.getStatus() == Enrollment.Status.COMPLETED)
-                .collect(java.util.stream.Collectors.toList());
+            // Filter only approved and completed enrollments for timetable
+            List<Enrollment> approvedEnrollments = new java.util.ArrayList<>();
+            for (Enrollment e : allEnrollments) {
+                if (e.getStatus() == Enrollment.Status.APPROVED || 
+                    e.getStatus() == Enrollment.Status.COMPLETED) {
+                    approvedEnrollments.add(e);
+                }
+            }
+            
+            LOGGER.info("Found " + approvedEnrollments.size() + " approved enrollments for student " + studentId);
             
             request.setAttribute("enrollments", approvedEnrollments);
             

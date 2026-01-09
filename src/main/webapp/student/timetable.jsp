@@ -12,41 +12,64 @@
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
             <script src="https://unpkg.com/lucide@latest"></script>
             <style>
-                .timetable-container {
-                    background: var(--bg-card);
-                    border-radius: 12px;
-                    padding: 1.5rem;
+                .calendar-grid {
+                    display: grid;
+                    grid-template-columns: 80px repeat(7, 1fr);
+                    gap: 1px;
+                    background: var(--border);
+                    border: 1px solid var(--border);
+                    overflow-x: auto;
                     margin-top: 1.5rem;
                 }
 
-                .schedule-item {
-                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-                    border-left: 4px solid var(--primary);
+                .calendar-header {
+                    background: var(--bg-secondary);
                     padding: 1rem;
-                    border-radius: 8px;
-                    margin-bottom: 1rem;
-                }
-
-                .schedule-item h4 {
-                    margin: 0 0 0.5rem 0;
+                    text-align: center;
+                    font-weight: 600;
                     color: var(--text-primary);
-                    font-size: 1rem;
                 }
 
-                .schedule-item p {
-                    margin: 0.25rem 0;
+                .time-slot {
+                    background: var(--bg-secondary);
+                    padding: 0.5rem;
+                    text-align: center;
+                    font-size: 0.75rem;
                     color: var(--text-muted);
-                    font-size: 0.875rem;
+                    border-right: 1px solid var(--border);
                 }
 
-                .schedule-badge {
-                    display: inline-block;
-                    background: var(--primary);
+                .calendar-cell {
+                    background: var(--bg-card);
+                    min-height: 60px;
+                    padding: 0.25rem;
+                    position: relative;
+                }
+
+                .class-block {
+                    background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(168, 85, 247, 0.9));
                     color: white;
-                    padding: 0.25rem 0.75rem;
+                    padding: 0.5rem;
                     border-radius: 6px;
                     font-size: 0.75rem;
-                    font-weight: 600;
+                    margin-bottom: 0.25rem;
+                    cursor: pointer;
+                    transition: transform 0.2s;
+                }
+
+                .class-block:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+
+                .class-code {
+                    font-weight: 700;
+                    margin-bottom: 0.25rem;
+                }
+
+                .class-name {
+                    font-size: 0.7rem;
+                    opacity: 0.9;
                 }
             </style>
         </head>
@@ -105,59 +128,110 @@
                 <main class="main-content">
                     <header class="header">
                         <div>
-                            <h1>My Timetable</h1>
-                            <p style="color: var(--text-muted);">Your weekly class schedule</p>
+                            <h1>Weekly Timetable</h1>
+                            <p style="color: var(--text-muted);">Your class schedule</p>
                         </div>
                     </header>
 
-                    <c:if test="${not empty error}">
-                        <div
-                            style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                            ${error}
-                        </div>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${not empty enrollments}">
+                            <!-- Calendar Grid -->
+                            <div class="calendar-grid">
+                                <!-- Header Row -->
+                                <div class="calendar-header" style="background: var(--bg-main);"></div>
+                                <div class="calendar-header">Monday</div>
+                                <div class="calendar-header">Tuesday</div>
+                                <div class="calendar-header">Wednesday</div>
+                                <div class="calendar-header">Thursday</div>
+                                <div class="calendar-header">Friday</div>
+                                <div class="calendar-header">Saturday</div>
+                                <div class="calendar-header">Sunday</div>
 
-                    <div class="timetable-container">
-                        <c:choose>
-                            <c:when test="${not empty enrollments}">
-                                <h3 style="margin-bottom: 1.5rem;">Enrolled Classes</h3>
-                                <c:forEach var="enrollment" items="${enrollments}">
-                                    <div class="schedule-item">
-                                        <h4>
-                                            <span class="schedule-badge">${enrollment.courseCode}</span>
-                                            ${enrollment.courseName}
-                                        </h4>
-                                        <p><strong>Schedule:</strong>
-                                            <c:choose>
-                                                <c:when test="${not empty enrollment.schedule}">
-                                                    ${enrollment.schedule}
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <span style="color: var(--text-muted);">Schedule not
-                                                        specified</span>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </p>
-                                        <p><strong>Instructor:</strong> ${enrollment.instructor}</p>
-                                        <p><strong>Credits:</strong> ${enrollment.credits}</p>
-                                    </div>
+                                <!-- Time slots 8am - 8pm -->
+                                <c:forEach var="hour" begin="8" end="20">
+                                    <div class="time-slot">${hour}:00</div>
+                                    <div class="calendar-cell" id="cell-mon-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-tue-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-wed-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-thu-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-fri-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-sat-${hour}"></div>
+                                    <div class="calendar-cell" id="cell-sun-${hour}"></div>
                                 </c:forEach>
-                            </c:when>
-                            <c:otherwise>
-                                <!-- Empty State -->
-                                <div style="text-align: center; padding: 4rem 2rem; color: var(--text-muted);">
-                                    <i data-lucide="calendar-x"
-                                        style="width: 80px; height: 80px; margin: 0 auto 1.5rem; opacity: 0.3;"></i>
-                                    <h2 style="margin-bottom: 0.5rem;">No Classes Scheduled</h2>
-                                    <p>Your timetable will appear here once you enroll in courses.</p>
-                                    <a href="${pageContext.request.contextPath}/enroll-course" class="btn"
-                                        style="margin-top: 1rem;">
-                                        Browse Courses
-                                    </a>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
+                            </div>
+
+                            <!-- JavaScript to populate calendar -->
+                            <script>
+                                const enrollments = [
+                                    <c:forEach var="enrollment" items="${enrollments}" varStatus="status">
+                                        {
+                                            courseCode: '${enrollment.courseCode}',
+                                        courseName: '${enrollment.courseName}',
+                                        schedule: '${enrollment.schedule}',
+                                        instructor: '${enrollment.instructor}'
+                                }${!status.last ? ',' : ''}
+                                    </c:forEach>
+                                ];
+
+                                // Parse schedule and place in calendar
+                                enrollments.forEach(course => {
+                                    if (!course.schedule || course.schedule === 'null') return;
+
+                                    const scheduleStr = course.schedule.toLowerCase();
+
+                                    // Parse days (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
+                                    const days = [];
+                                    if (scheduleStr.includes('mon')) days.push('mon');
+                                    if (scheduleStr.includes('tue')) days.push('tue');
+                                    if (scheduleStr.includes('wed')) days.push('wed');
+                                    if (scheduleStr.includes('thu')) days.push('thu');
+                                    if (scheduleStr.includes('fri')) days.push('fri');
+                                    if (scheduleStr.includes('sat')) days.push('sat');
+                                    if (scheduleStr.includes('sun')) days.push('sun');
+
+                                    // Parse start hour (simple parsing for common formats)
+                                    let startHour = 9; // default
+                                    const hourMatch = scheduleStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm)?/i);
+                                    if (hourMatch) {
+                                        let hour = parseInt(hourMatch[1]);
+                                        const isPM = hourMatch[3] && hourMatch[3].toLowerCase() === 'pm';
+                                        if (isPM && hour < 12) hour += 12;
+                                        if (!isPM && hour === 12) hour = 0;
+                                        startHour = hour;
+                                    }
+
+                                    // Place course in cells
+                                    days.forEach(day => {
+                                        const cellId = `cell-${day}-${startHour}`;
+                                        const cell = document.getElementById(cellId);
+                                        if (cell) {
+                                            const classBlock = document.createElement('div');
+                                            classBlock.className = 'class-block';
+                                            classBlock.innerHTML = `
+                                        <div class="class-code">${course.courseCode}</div>
+                                        <div class="class-name">${course.courseName}</div>
+                                    `;
+                                            classBlock.title = `${course.courseName}\n${course.schedule}\n${course.instructor}`;
+                                            cell.appendChild(classBlock);
+                                        }
+                                    });
+                                });
+                            </script>
+                        </c:when>
+                        <c:otherwise>
+                            <!-- Empty State -->
+                            <div style="text-align: center; padding: 4rem 2rem; color: var(--text-muted);">
+                                <i data-lucide="calendar-x"
+                                    style="width: 80px; height: 80px; margin: 0 auto 1.5rem; opacity: 0.3;"></i>
+                                <h2 style="margin-bottom: 0.5rem;">No Classes Scheduled</h2>
+                                <p>Your timetable will appear here once you enroll in courses.</p>
+                                <a href="${pageContext.request.contextPath}/enroll-course" class="btn"
+                                    style="margin-top: 1rem;">
+                                    Browse Courses
+                                </a>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </main>
             </div>
             <script>

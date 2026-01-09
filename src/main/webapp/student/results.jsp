@@ -32,7 +32,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="${pageContext.request.contextPath}/student/timetable.jsp">
+                                <a href="${pageContext.request.contextPath}/student-timetable">
                                     <i data-lucide="calendar"></i>
                                     Timetable
                                 </a>

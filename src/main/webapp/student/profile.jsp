@@ -22,13 +22,13 @@
 
                 <ul class="nav-links">
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/student/dashboard.jsp">
+                        <a href="${pageContext.request.contextPath}/student-dashboard">
                             <i data-lucide="layout-dashboard"></i>
                             Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/student/timetable.jsp">
+                        <a href="${pageContext.request.contextPath}/student-timetable">
                             <i data-lucide="calendar"></i>
                             Timetable
                         </a>
