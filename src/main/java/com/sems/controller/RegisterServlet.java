@@ -66,6 +66,11 @@ public class RegisterServlet extends HttpServlet {
                 throw new ValidationException("Passwords do not match");
             }
             
+            // Validate password complexity
+            if (!com.sems.util.ValidationUtil.isValidPassword(password)) {
+                throw new ValidationException("Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one symbol.");
+            }
+            
             // Auto-generate username from email (part before @)
             String username = email.substring(0, email.indexOf('@'));
             

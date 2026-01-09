@@ -141,4 +141,28 @@ public class ValidationUtil {
     public static boolean isValidAge(int age) {
         return age >= 16 && age <= 100;
     }
+
+    /**
+     * Validate password complexity:
+     * - Minimum 6 characters
+     * - At least one uppercase letter
+     * - At least one lowercase letter
+     * - At least one digit
+     * - At least one special symbol
+     * 
+     * @param password The password to validate
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidPassword(String password) {
+        if (isNullOrEmpty(password) || password.length() < 6) {
+            return false;
+        }
+
+        boolean hasUpper = password.matches(".*[A-Z].*");
+        boolean hasLower = password.matches(".*[a-z].*");
+        boolean hasDigit = password.matches(".*[0-9].*");
+        boolean hasSymbol = password.matches(".*[!@#$%^&*(),.?\":{}|<>].*");
+
+        return hasUpper && hasLower && hasDigit && hasSymbol;
+    }
 }

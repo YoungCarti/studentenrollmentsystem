@@ -8,6 +8,7 @@
         <title>Register - Student Enrollment System</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 
     <body>
@@ -48,13 +49,31 @@
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                                     <div class="form-group">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="password" id="password" name="password" class="form-control"
-                                            minlength="6" required>
+                                        <div class="password-wrapper">
+                                            <input type="password" id="password" name="password" class="form-control"
+                                                minlength="6"
+                                                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&amp;*(),.?&quot;:{}|&lt;&gt;]).{6,}$"
+                                                title="Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one symbol."
+                                                required>
+                                            <button type="button" class="password-toggle"
+                                                onclick="togglePassword('password', this)">
+                                                <i data-lucide="eye"></i>
+                                            </button>
+                                        </div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">
+                                            Min 6 chars, with A-Z, a-z, 0-9, &amp; symbol.
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                        <input type="password" id="confirmPassword" name="confirmPassword"
-                                            class="form-control" minlength="6" required>
+                                        <div class="password-wrapper">
+                                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                                class="form-control" minlength="6" required>
+                                            <button type="button" class="password-toggle"
+                                                onclick="togglePassword('confirmPassword', this)">
+                                                <i data-lucide="eye"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -67,6 +86,25 @@
                             </div>
             </div>
         </div>
+
+        <script>
+            lucide.createIcons();
+
+            function togglePassword(inputId, button) {
+                const input = document.getElementById(inputId);
+                const icon = button.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.setAttribute('data-lucide', 'eye-off');
+                } else {
+                    input.type = 'password';
+                    icon.setAttribute('data-lucide', 'eye');
+                }
+
+                lucide.createIcons();
+            }
+        </script>
     </body>
 
     </html>

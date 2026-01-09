@@ -10,6 +10,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <script src="https://unpkg.com/lucide@latest"></script>
     </head>
 
     <body>
@@ -39,8 +40,14 @@
 
                                 <div class="form-group">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" id="password" name="password" class="form-control"
-                                        placeholder="Enter your password" required>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            placeholder="Enter your password" required>
+                                        <button type="button" class="password-toggle"
+                                            onclick="togglePassword('password', this)">
+                                            <i data-lucide="eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div
@@ -62,6 +69,25 @@
                             </div>
             </div>
         </div>
+
+        <script>
+            lucide.createIcons();
+
+            function togglePassword(inputId, button) {
+                const input = document.getElementById(inputId);
+                const icon = button.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.setAttribute('data-lucide', 'eye-off');
+                } else {
+                    input.type = 'password';
+                    icon.setAttribute('data-lucide', 'eye');
+                }
+
+                lucide.createIcons();
+            }
+        </script>
     </body>
 
     </html>

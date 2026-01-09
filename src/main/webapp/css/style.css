@@ -161,3 +161,37 @@ a:hover {
     backdrop-filter: blur(10px);
     /* Glassmorphism hint */
 }
+
+/* Password Toggle Styles */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper .form-control {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.password-toggle:hover {
+    color: var(--text-main);
+}
+
+.password-toggle:focus {
+    outline: none;
+}
