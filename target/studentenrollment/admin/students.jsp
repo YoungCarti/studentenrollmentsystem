@@ -11,6 +11,127 @@
                 rel="stylesheet">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
             <link rel="stylesheet" href="${pageContext.request.contextPath}/css/dashboard.css">
+            <style>
+                .modal-overlay {
+                    display: none;
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    z-index: 1000;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .modal-overlay.show {
+                    display: flex;
+                }
+
+                .modal {
+                    background: var(--card);
+                    border-radius: 12px;
+                    padding: 2rem;
+                    width: 100%;
+                    max-width: 500px;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                }
+
+                .modal h2 {
+                    margin-bottom: 1.5rem;
+                    color: var(--text);
+                }
+
+                .form-group {
+                    margin-bottom: 1rem;
+                }
+
+                .form-group label {
+                    display: block;
+                    margin-bottom: 0.5rem;
+                    font-weight: 500;
+                    color: var(--text-muted);
+                }
+
+                .form-group input {
+                    width: 100%;
+                    padding: 0.75rem;
+                    border: 1px solid var(--border);
+                    border-radius: 8px;
+                    background: var(--background);
+                    color: var(--text);
+                }
+
+                .modal-actions {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                    justify-content: flex-end;
+                }
+
+                .btn {
+                    padding: 0.75rem 1.5rem;
+                    border-radius: 8px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    border: none;
+                    transition: all 0.2s;
+                }
+
+                .btn-primary {
+                    background: var(--primary);
+                    color: white;
+                }
+
+                .btn-primary:hover {
+                    opacity: 0.9;
+                }
+
+                .btn-secondary {
+                    background: var(--border);
+                    color: var(--text);
+                }
+
+                .btn-danger {
+                    background: #ef4444;
+                    color: white;
+                }
+
+                .btn-sm {
+                    padding: 0.5rem 1rem;
+                    font-size: 0.875rem;
+                }
+
+                .action-btns {
+                    display: flex;
+                    gap: 0.5rem;
+                }
+
+                .alert {
+                    padding: 1rem;
+                    border-radius: 8px;
+                    margin-bottom: 1rem;
+                }
+
+                .alert-success {
+                    background: #10b98120;
+                    color: #10b981;
+                    border: 1px solid #10b981;
+                }
+
+                .alert-error {
+                    background: #ef444420;
+                    color: #ef4444;
+                    border: 1px solid #ef4444;
+                }
+
+                .header-actions {
+                    display: flex;
+                    gap: 1rem;
+                    align-items: center;
+                }
+            </style>
         </head>
 
         <body>
@@ -99,7 +220,20 @@
                             <h1>Student Management</h1>
                             <p style="color: var(--text-muted);">View and manage all registered students</p>
                         </div>
+                        <div class="header-actions">
+                            <button class="btn btn-primary" onclick="openAddModal()">
+                                <i data-lucide="plus" style="width: 16px; height: 16px;"></i> Add Student
+                            </button>
+                        </div>
                     </header>
+
+                    <!-- Alerts -->
+                    <c:if test="${not empty success}">
+                        <div class="alert alert-success">${success}</div>
+                    </c:if>
+                    <c:if test="${not empty error}">
+                        <div class="alert alert-error">${error}</div>
+                    </c:if>
 
                     <div class="card">
                         <c:choose>
@@ -125,10 +259,13 @@
                                             <th
                                                 style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
                                                 Enrollment Date</th>
+                                            <th
+                                                style="padding: 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.875rem;">
+                                                Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach var="student" items="${students}" varStatus="status">
+                                        <c:forEach var="student" items="${students}">
                                             <tr style="border-bottom: 1px solid var(--border);">
                                                 <td style="padding: 1rem;">${student.studentId}</td>
                                                 <td style="padding: 1rem; font-weight: 500;">${student.firstName}
@@ -136,9 +273,21 @@
                                                 <td style="padding: 1rem; color: var(--text-muted);">${student.email}
                                                 </td>
                                                 <td style="padding: 1rem;">${student.phone != null ? student.phone :
-                                                    'N/A'}</td>
+                                                    '-'}</td>
                                                 <td style="padding: 1rem;">${student.dob}</td>
                                                 <td style="padding: 1rem;">${student.enrollmentDate}</td>
+                                                <td style="padding: 1rem;">
+                                                    <div class="action-btns">
+                                                        <button class="btn btn-secondary btn-sm"
+                                                            onclick="openEditModal(${student.studentId}, '${student.firstName}', '${student.lastName}', '${student.email}', '${student.dob}', '${student.phone}', '${student.address}')">
+                                                            Edit
+                                                        </button>
+                                                        <button class="btn btn-danger btn-sm"
+                                                            onclick="openDeleteModal(${student.studentId}, '${student.firstName} ${student.lastName}')">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -155,21 +304,117 @@
                 </main>
             </div>
 
+            <!-- Add/Edit Modal -->
+            <div class="modal-overlay" id="studentModal">
+                <div class="modal">
+                    <h2 id="modalTitle">Add Student</h2>
+                    <form action="${pageContext.request.contextPath}/manage-students" method="post">
+                        <input type="hidden" name="action" id="formAction" value="add">
+                        <input type="hidden" name="studentId" id="studentId">
+
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" name="firstName" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input type="text" name="lastName" id="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="dob" id="dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="text" name="phone" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="address" id="address">
+                        </div>
+
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Delete Confirmation Modal -->
+            <div class="modal-overlay" id="deleteModal">
+                <div class="modal">
+                    <h2>Confirm Delete</h2>
+                    <p>Are you sure you want to delete <strong id="deleteStudentName"></strong>?</p>
+                    <form action="${pageContext.request.contextPath}/manage-students" method="post">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="studentId" id="deleteStudentId">
+
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <script>
                 lucide.createIcons();
 
                 function toggleProfileMenu() {
-                    const dropdown = document.getElementById('profileDropdown');
-                    dropdown.classList.toggle('show');
+                    document.getElementById('profileDropdown').classList.toggle('show');
                 }
 
-                // Close dropdown when clicking outside
                 window.addEventListener('click', function (e) {
                     const profile = document.querySelector('.user-profile');
                     if (!profile.contains(e.target)) {
                         document.getElementById('profileDropdown').classList.remove('show');
                     }
                 });
+
+                function openAddModal() {
+                    document.getElementById('modalTitle').textContent = 'Add Student';
+                    document.getElementById('formAction').value = 'add';
+                    document.getElementById('studentId').value = '';
+                    document.getElementById('firstName').value = '';
+                    document.getElementById('lastName').value = '';
+                    document.getElementById('email').value = '';
+                    document.getElementById('dob').value = '';
+                    document.getElementById('phone').value = '';
+                    document.getElementById('address').value = '';
+                    document.getElementById('studentModal').classList.add('show');
+                }
+
+                function openEditModal(id, firstName, lastName, email, dob, phone, address) {
+                    document.getElementById('modalTitle').textContent = 'Edit Student';
+                    document.getElementById('formAction').value = 'edit';
+                    document.getElementById('studentId').value = id;
+                    document.getElementById('firstName').value = firstName;
+                    document.getElementById('lastName').value = lastName;
+                    document.getElementById('email').value = email;
+                    document.getElementById('dob').value = dob;
+                    document.getElementById('phone').value = phone || '';
+                    document.getElementById('address').value = address || '';
+                    document.getElementById('studentModal').classList.add('show');
+                }
+
+                function closeModal() {
+                    document.getElementById('studentModal').classList.remove('show');
+                }
+
+                function openDeleteModal(id, name) {
+                    document.getElementById('deleteStudentId').value = id;
+                    document.getElementById('deleteStudentName').textContent = name;
+                    document.getElementById('deleteModal').classList.add('show');
+                }
+
+                function closeDeleteModal() {
+                    document.getElementById('deleteModal').classList.remove('show');
+                }
             </script>
         </body>
 
